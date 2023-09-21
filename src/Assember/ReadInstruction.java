@@ -92,5 +92,73 @@ public class ReadInstruction {
             System.out.println();
         }
     }
+    public static String CheckSignAndExtend(String field) {
+        if (field.startsWith("-")) {
+            return "11" + field.substring(1);
+        } else {
+            return "00" + field;
+        }
+    }
+
+    public void clarifyInstruction() {
+        String clarify = "";
+        for (Map<String, String> instruction_set: mappedLines) {
+            String value = instruction_set.get("instruction");
+            String field0 = instruction_set.get("field0");
+            String field1 = instruction_set.get("field1");
+            String field2 = instruction_set.get("field2");
+
+            String binaryField0 = String.format("%3s", Integer.toBinaryString(Integer.parseInt(instruction_set.get("field0")))).replaceAll(" ", "0");
+            String binaryField1 = String.format("%3s", Integer.toBinaryString(Integer.parseInt(instruction_set.get("field1")))).replaceAll(" ", "0");
+            String binaryField2 = String.format("%3s", Integer.toBinaryString(Integer.parseInt(instruction_set.get("field2")))).replaceAll(" ", "0");
+            System.out.println(binaryField0);
+            System.out.println(binaryField1);
+            System.out.println(binaryField2);
+
+            switch (value) {
+                case "add":
+                    String opcode_and = "000";
+                    String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(RTypeAndValue);
+                    break;
+                case "nand":
+                    String opcode_nand = "001";
+                    String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
+                break;
+                case "lw":
+                    String opcode_lw = "010";
+                    String ITypeLwValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
+                break;
+                case "sw":
+                    String opcode_sw = "011";
+                    String ITypeSwValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
+                break;
+                case "beq":
+                    String opcode_beq = "100";
+                    String ITypeBeqValue = opcode_beq + binaryField0 + binaryField1 + binaryField2;
+                break;
+                case "jalr":
+                    String opcode_jalr = "101";
+                    String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
+                break;
+                case "halt":
+                    String opcode_halt = "110";
+                    String OTypeHaltValue = opcode_halt + binaryField0 + binaryField1 + binaryField2;
+                break;
+                case "loop":
+                    String opcode_loop = "111";
+                    String OTypeLoopValue = opcode_loop + binaryField0 + binaryField1 + binaryField2;
+                break;
+                default:
+                    System.out.println("error");
+            }
+        }
+    }
+
+    public static void main( String[] args){
+        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/Project ComArch/src/Assember/instruction");
+//        Read.printMappedLines();
+        Read.clarifyInstruction();
+    }
 
 }
