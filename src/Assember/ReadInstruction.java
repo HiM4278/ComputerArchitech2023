@@ -111,9 +111,9 @@ public class ReadInstruction {
             String binaryField0 = String.format("%3s", Integer.toBinaryString(Integer.parseInt(instruction_set.get("field0")))).replaceAll(" ", "0");
             String binaryField1 = String.format("%3s", Integer.toBinaryString(Integer.parseInt(instruction_set.get("field1")))).replaceAll(" ", "0");
             String binaryField2 = String.format("%3s", Integer.toBinaryString(Integer.parseInt(instruction_set.get("field2")))).replaceAll(" ", "0");
-            System.out.println(binaryField0);
-            System.out.println(binaryField1);
-            System.out.println(binaryField2);
+//            System.out.println(binaryField0);
+//            System.out.println(binaryField1);
+//            System.out.println(binaryField2);
 
             switch (value) {
                 case "add":
