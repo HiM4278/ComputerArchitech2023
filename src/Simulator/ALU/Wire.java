@@ -6,4 +6,8 @@ public class Wire {
     public void update(int data){
         this.data = data;
     }
+
+    public int getData(){
+        return this.data;
+    }
 }
