@@ -124,36 +124,44 @@ public class ReadInstruction {
                 case "nand":
                     String opcode_nand = "001";
                     String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(RTypeNandValue);
                 break;
                 case "lw":
                     String opcode_lw = "010";
                     String ITypeLwValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(ITypeLwValue);
                 break;
                 case "sw":
                     String opcode_sw = "011";
                     String ITypeSwValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(ITypeSwValue);
                 break;
                 case "beq":
                     String opcode_beq = "100";
                     String ITypeBeqValue = opcode_beq + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(ITypeBeqValue);
                 break;
                 case "jalr":
                     String opcode_jalr = "101";
                     String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(JTypeJalrValue);
                 break;
                 case "halt":
                     String opcode_halt = "110";
                     String OTypeHaltValue = opcode_halt + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(OTypeHaltValue);
                 break;
                 case "loop":
                     String opcode_loop = "111";
                     String OTypeLoopValue = opcode_loop + binaryField0 + binaryField1 + binaryField2;
+                    System.out.println(OTypeLoopValue);
                 break;
                 default:
                     System.out.println("error");
             }
         }
     }
+
 
     public static void main( String[] args){
         ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/Project ComArch/src/Assember/instruction");
