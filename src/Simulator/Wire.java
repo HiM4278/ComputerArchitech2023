@@ -1,4 +1,4 @@
-package Simulator.ALU;
+package Simulator;
 
 public class Wire {
     private int data;
