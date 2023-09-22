@@ -90,13 +90,6 @@ public class ReadInstruction {
         }
     }
 
-//    public static String CheckSignAndExtend(String field) {
-//        if (field.startsWith("-")) {
-//            return "11" + field.substring(1);
-//        } else {
-//            return "00" + field;
-//        }
-//    }
 
 //    public void clarifyInstruction() {
 //        String clarify = "";
@@ -191,14 +184,14 @@ public class ReadInstruction {
                 if (intValueField1 >= 0) {
                     binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
                 }
-                if (intValueField0 < 0){
+                if (intValueField1 < 0){
                     binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
                 }
 
                 if (intValueField2 >= 0) {
                     binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
                 }
-                if (intValueField0 < 0){
+                if (intValueField2 < 0){
                     binaryField2 = String.format("%16s", Integer.toBinaryString(-intValueField2)).replaceAll(" ", "1");
                 }
 
@@ -242,14 +235,14 @@ public class ReadInstruction {
             if (intValueField1 >= 0) {
                 binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
             }
-            if (intValueField0 < 0){
+            if (intValueField1 < 0){
                 binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
             }
 
             if (intValueField2 >= 0) {
                 binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
             }
-            if (intValueField0 < 0){
+            if (intValueField2 < 0){
                 binaryField2 = String.format("%16s", Integer.toBinaryString(-intValueField2)).replaceAll(" ", "1");
             }
 
@@ -284,7 +277,7 @@ public class ReadInstruction {
 
             String binaryField0 = "";
             String binaryField1 = "";
-            //String binaryField2;
+            String binaryField2 = "";
 
             if (intValueField0 >= 0) {
                 // Positive integer
@@ -298,16 +291,59 @@ public class ReadInstruction {
             if (intValueField1 >= 0) {
                 binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
             }
-            if (intValueField0 < 0){
+            if (intValueField1 < 0){
                 binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
             }
 
-            //binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
+            if (intValueField2 >= 0) {
+                binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
+            }
+            if (intValueField2 < 0){
+                binaryField2 = String.format("%16s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
+            }
 
             if (Objects.equals(value, "jalr")) {
                 String opcode_jalr = "101";
-//                String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
-                String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + "0000000000000000";
+                String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
+                System.out.println(JTypeJalrValue);
+            }
+        }
+    }
+
+    public void OTypeInstruction() {
+        for (Map<String, String> instruction_set : mappedLines) {
+            String value = instruction_set.get("instruction");
+            String field0 = instruction_set.get("field0");
+            String field1 = instruction_set.get("field1");
+            String field2 = instruction_set.get("field2");
+
+            int intValueField0 = Integer.parseInt(field0);
+            int intValueField1 = Integer.parseInt(field1);
+            int intValueField2 = Integer.parseInt(field2);
+
+            String binaryField0 = "";
+            String binaryField1 = "";
+            //String binaryField2;
+
+            if (intValueField0 >= 0) {
+                // Positive integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
+            }
+            if (intValueField0 < 0){
+                // Negative integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
+            }
+
+            if (intValueField1 >= 0) {
+                binaryField1 = String.format("%22s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
+            }
+            if (intValueField1 < 0){
+                binaryField1 = String.format("%22s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
+            }
+
+            if (Objects.equals(value, "jalr")) {
+                String opcode_jalr = "101";
+                String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1;
                 System.out.println(JTypeJalrValue);
             }
         }
