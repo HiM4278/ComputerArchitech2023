@@ -254,19 +254,61 @@ public class ReadInstruction {
             }
 
             if (Objects.equals(value, "lw")) {
-                String opcode_and = "010";
-                String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
+                String opcode_lw = "010";
+                String RTypeAndValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
                 System.out.println(RTypeAndValue);
             }
             if (Objects.equals(value, "sw")) {
-                String opcode_nand = "011";
-                String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
+                String opcode_sw = "011";
+                String RTypeNandValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
                 System.out.println(RTypeNandValue);
             }
             if (Objects.equals(value, "beq")) {
-                String opcode_nand = "100";
-                String ITypeBeqValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
+                String opcode_beq = "100";
+                String ITypeBeqValue = opcode_beq + binaryField0 + binaryField1 + binaryField2;
                 System.out.println(ITypeBeqValue);
+            }
+        }
+    }
+
+    public void JTypeInstruction() {
+        for (Map<String, String> instruction_set : mappedLines) {
+            String value = instruction_set.get("instruction");
+            String field0 = instruction_set.get("field0");
+            String field1 = instruction_set.get("field1");
+            String field2 = instruction_set.get("field2");
+
+            int intValueField0 = Integer.parseInt(field0);
+            int intValueField1 = Integer.parseInt(field1);
+            int intValueField2 = Integer.parseInt(field2);
+
+            String binaryField0 = "";
+            String binaryField1 = "";
+            //String binaryField2;
+
+            if (intValueField0 >= 0) {
+                // Positive integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
+            }
+            if (intValueField0 < 0){
+                // Negative integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
+            }
+
+            if (intValueField1 >= 0) {
+                binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
+            }
+            if (intValueField0 < 0){
+                binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
+            }
+
+            //binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
+
+            if (Objects.equals(value, "jalr")) {
+                String opcode_jalr = "101";
+//                String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
+                String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + "0000000000000000";
+                System.out.println(JTypeJalrValue);
             }
         }
     }
