@@ -339,5 +339,9 @@ public class ReadInstruction {
 //        Read.printMappedLines();
 //        Read.clarifyInstruction();
           Read.RTypeInstruction();
+          Read.ITypeInstruction();
+          Read.OTypeInstruction();
+          Read.JTypeInstruction();
+
         }
     }
