@@ -9,10 +9,12 @@ public class ReadInstruction {
     private static ReadInstruction instance;
     private String filePath;
     private List<Map<String, String>> mappedLines;
+    private Map<String, Integer> labelToAddressMap;
 
     private ReadInstruction(String filePath) {
         this.filePath = filePath;
         this.mappedLines = new ArrayList<>();
+        this.labelToAddressMap = new HashMap<>();
         mapFileIntoParts(); // Automatically map lines upon instantiation
     }
 
@@ -46,7 +48,10 @@ public class ReadInstruction {
         Map<String, String> lineMap = new HashMap<>();
         lineMap.put("Address", num.toString());
         if (parts.length >= 1) {
-            lineMap.put("Label", parts[0]);
+            if (!parts[0].isEmpty()) {
+                lineMap.put("Label", parts[0]);
+                labelToAddressMap.put(parts[0], num);
+            }
         }
         if (parts.length >= 2) {
             lineMap.put("instruction", parts[1]);
@@ -164,6 +169,8 @@ public class ReadInstruction {
             if (Objects.equals(value, "add")) {
                 String opcode_and = "000";
                 String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
+                int decimalValue = Integer.parseInt(RTypeAndValue,2);
+                System.out.println(decimalValue);
                 System.out.println(RTypeAndValue);
             }
             if (Objects.equals(value, "nand")) {
@@ -181,7 +188,13 @@ public class ReadInstruction {
 
         int intValueField0 = Integer.parseInt(field0);
         int intValueField1 = Integer.parseInt(field1);
-        int intValueField2 = Integer.parseInt(field2);
+        int intValueField2;
+        if(isInteger(field2)){
+            intValueField2 = Integer.parseInt(field2);
+        } else {
+            intValueField2 = getAddressForLabel(field2);
+        }
+
 
         String binaryField0 = "";
         String binaryField1 = "";
@@ -213,6 +226,8 @@ public class ReadInstruction {
         if (Objects.equals(value, "lw")) {
             String opcode_lw = "010";
             String RTypeAndValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
+            int decimalValue = Integer.parseInt(RTypeAndValue,2);
+            System.out.println(decimalValue);
             System.out.println(RTypeAndValue);
         }
         if (Objects.equals(value, "sw")) {
@@ -282,10 +297,21 @@ public class ReadInstruction {
                 System.out.println(OTypeLoopValue);
             }
     }
-
+    private boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+    public Integer getAddressForLabel(String label) {
+        return labelToAddressMap.get(label);
+    }
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/Project ComArch/src/Assember/instruction");
+        ReadInstruction Read = new ReadInstruction("D:\\ComputerArchitech\\src\\assemnly.txt");
         Read.printMappedLines();
+        System.out.println(Read.getAddressForLabel("start"));
         Read.clarifyInstruction();
     }
 }
