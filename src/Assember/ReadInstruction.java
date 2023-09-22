@@ -1,9 +1,6 @@
 package Assember;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -215,12 +212,12 @@ public class ReadInstruction {
                     binaryField2 = String.format("%16s", Integer.toBinaryString(-intValueField2)).replaceAll(" ", "1");
                 }
 
-                if ("and".equals(value)) {
+                if (Objects.equals(value, "add")) {
                     String opcode_and = "000";
                     String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
                     System.out.println(RTypeAndValue);
                 }
-                if ("nand".equals(value)) {
+                if (Objects.equals(value, "nand")) {
                     String opcode_nand = "001";
                     String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
                     System.out.println(RTypeNandValue);
@@ -230,7 +227,18 @@ public class ReadInstruction {
 
     public void ITypeInstruction() {
         for (Map<String, String> instruction_set : mappedLines) {
+            String value = instruction_set.get("instruction");
+            String field0 = instruction_set.get("field0");
+            String field1 = instruction_set.get("field1");
+            String field2 = instruction_set.get("field2");
 
+            int intValueField0 = Integer.parseInt(field0);
+            int intValueField1 = Integer.parseInt(field1);
+            int intValueField2 = Integer.parseInt(field2);
+
+            String binaryField0 = "";
+            String binaryField1 = "";
+            String binaryField2 = "";
         }
     }
 
