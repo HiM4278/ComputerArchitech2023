@@ -170,7 +170,7 @@ public class ReadInstruction {
 
                 String binaryField0 = "";
                 String binaryField1 = "";
-                String binaryField2 = "";
+                String binaryField2;
 
                 if (intValueField0 >= 0) {
                     // Positive integer
@@ -188,12 +188,7 @@ public class ReadInstruction {
                     binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
                 }
 
-                if (intValueField2 >= 0) {
-                    binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
-                }
-                if (intValueField2 < 0){
-                    binaryField2 = String.format("%16s", Integer.toBinaryString(-intValueField2)).replaceAll(" ", "1");
-                }
+                binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
 
                 if (Objects.equals(value, "add")) {
                     String opcode_and = "000";
@@ -277,7 +272,7 @@ public class ReadInstruction {
 
             String binaryField0 = "";
             String binaryField1 = "";
-            String binaryField2 = "";
+            String binaryField2;
 
             if (intValueField0 >= 0) {
                 // Positive integer
@@ -295,12 +290,7 @@ public class ReadInstruction {
                 binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
             }
 
-            if (intValueField2 >= 0) {
-                binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
-            }
-            if (intValueField2 < 0){
-                binaryField2 = String.format("%16s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
-            }
+            binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
 
             if (Objects.equals(value, "jalr")) {
                 String opcode_jalr = "101";
@@ -334,12 +324,7 @@ public class ReadInstruction {
                 binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
             }
 
-            if (intValueField1 >= 0) {
-                binaryField1 = String.format("%22s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
-            }
-            if (intValueField1 < 0){
-                binaryField1 = String.format("%22s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
-            }
+            binaryField1 = String.format("%22s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
 
             if (Objects.equals(value, "jalr")) {
                 String opcode_jalr = "101";
