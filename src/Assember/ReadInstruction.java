@@ -179,7 +179,9 @@ public class ReadInstruction {
             if (Objects.equals(value, "nand")) {
                 String opcode_nand = "001";
                 String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
-                System.out.println(RTypeNandValue);
+                int decimalValue = Integer.parseInt(RTypeNandValue,2);
+                System.out.println(decimalValue);
+//              System.out.println(RTypeNandValue);
             }
         }
 
