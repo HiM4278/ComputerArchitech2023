@@ -11,7 +11,7 @@ public class ReadInstruction {
     private List<Map<String, String>> mappedLines;
     private Map<String, Integer> labelToAddressMap;
 
-    private ReadInstruction(String filePath) {
+    public ReadInstruction(String filePath) {
         this.filePath = filePath;
         this.mappedLines = new ArrayList<>();
         this.labelToAddressMap = new HashMap<>();
@@ -342,12 +342,5 @@ public class ReadInstruction {
 
     public Integer getAddressForLabel(String label) {
         return labelToAddressMap.get(label);
-    }
-
-    public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/ComputerArchitech2023/src/Assember/Assem");
-//        Read.printMappedLines();
-//        System.out.println(Read.getAddressForLabel("five"));
-        Read.clarifyInstruction();
     }
 }
