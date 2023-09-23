@@ -1,9 +1,6 @@
 package Assember;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,10 +9,12 @@ public class ReadInstruction {
     private static ReadInstruction instance;
     private String filePath;
     private List<Map<String, String>> mappedLines;
+    private Map<String, Integer> labelToAddressMap;
 
     private ReadInstruction(String filePath) {
         this.filePath = filePath;
         this.mappedLines = new ArrayList<>();
+        this.labelToAddressMap = new HashMap<>();
         mapFileIntoParts(); // Automatically map lines upon instantiation
     }
 
@@ -33,7 +32,7 @@ public class ReadInstruction {
             String line;
             int linenumber = 0;
             while ((line = bufferedReader.readLine()) != null) {
-                mapLineIntoParts(line,linenumber);
+                mapLineIntoParts(line, linenumber);
                 linenumber++;
             }
 
@@ -44,12 +43,15 @@ public class ReadInstruction {
         }
     }
 
-    private void mapLineIntoParts(String line,Integer num) {
+    private void mapLineIntoParts(String line, Integer num) {
         String[] parts = splitLine(line);
         Map<String, String> lineMap = new HashMap<>();
-        lineMap.put("Address",num.toString());
+        lineMap.put("Address", num.toString());
         if (parts.length >= 1) {
-            lineMap.put("Label", parts[0]);
+            if (!parts[0].isEmpty()) {
+                lineMap.put("Label", parts[0]);
+                labelToAddressMap.put(parts[0], num);
+            }
         }
         if (parts.length >= 2) {
             lineMap.put("instruction", parts[1]);
@@ -93,4 +95,257 @@ public class ReadInstruction {
         }
     }
 
+
+    public void clarifyInstruction() {
+        String clarify = "";
+        for (Map<String, String> instruction_set : mappedLines) {
+            String value = instruction_set.get("instruction");
+
+            //Match instruction and opcode
+            switch (value) {
+                case "add":
+                    this.RTypeInstruction(instruction_set);
+                    break;
+                case "nand":
+                    this.RTypeInstruction(instruction_set);
+                    break;
+                case "lw":
+                    this.ITypeInstruction(instruction_set);
+                    break;
+                case "sw":
+                    this.ITypeInstruction(instruction_set);
+                    break;
+                case "beq":
+                    this.ITypeInstruction(instruction_set);
+                    break;
+                case "jalr":
+                    this.JTypeInstruction(instruction_set);
+                    break;
+                case "halt":
+                    this.OTypeInstruction(instruction_set);
+                    break;
+                case "noop":
+                    this.OTypeInstruction(instruction_set);
+                    break;
+                case ".fill":
+                    this.getFill(instruction_set);
+                    break;
+                default:
+                    System.out.println("error");
+            }
+        }
+    }
+
+    public void RTypeInstruction(Map<String, String> instruction_set) {
+
+            String value = instruction_set.get("instruction");
+            String field0 = instruction_set.get("field0");
+            String field1 = instruction_set.get("field1");
+            String field2 = instruction_set.get("field2");
+
+            int intValueField0 = Integer.parseInt(field0);
+            int intValueField1 = Integer.parseInt(field1);
+            int intValueField2 = Integer.parseInt(field2);
+
+            String binaryField0 = "";
+            String binaryField1 = "";
+            String binaryField2;
+
+            if (intValueField0 >= 0) {
+                // Positive integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
+            }
+            if (intValueField0 < 0) {
+                // Negative integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
+            }
+
+            if (intValueField1 >= 0) {
+                binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
+            }
+            if (intValueField1 < 0) {
+                binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
+            }
+
+            binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
+
+            if (Objects.equals(value, "add")) {
+                String opcode_and = "000";
+                String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
+                int decimalValue = Integer.parseInt(RTypeAndValue,2);
+                System.out.println(decimalValue);
+//                System.out.println(RTypeAndValue);
+            }
+            if (Objects.equals(value, "nand")) {
+                String opcode_nand = "001";
+                String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
+                System.out.println(RTypeNandValue);
+            }
+        }
+
+    public void ITypeInstruction(Map<String, String> instruction_set) { //remain check label
+        String value = instruction_set.get("instruction");
+        String field0 = instruction_set.get("field0");
+        String field1 = instruction_set.get("field1");
+        String field2 = instruction_set.get("field2");
+
+        int intValueField0 = Integer.parseInt(field0);
+        int intValueField1 = Integer.parseInt(field1);
+        int intValueField2;
+        if(isInteger(field2)){
+            intValueField2 = Integer.parseInt(field2);
+        } else {
+            intValueField2 = getAddressForLabel(field2);
+        }
+
+
+        String binaryField0 = "";
+        String binaryField1 = "";
+        String binaryField2 = "";
+
+        if (intValueField0 >= 0) {
+            // Positive integer
+            binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
+        }
+        if (intValueField0 < 0) {
+            // Negative integer
+            binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
+        }
+
+        if (intValueField1 >= 0) {
+            binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
+        }
+        if (intValueField1 < 0) {
+            binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
+        }
+
+        if (intValueField2 >= 0) {
+            binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField2)).replaceAll(" ", "0");
+        }
+        if (intValueField2 < 0) {
+            binaryField2 = String.format("%16s", Integer.toBinaryString(-intValueField2)).replaceAll(" ", "1");
+        }
+
+        if (Objects.equals(value, "lw")) {
+            String opcode_lw = "010";
+            String ITypeLwValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
+            int decimalValue = Integer.parseInt(ITypeLwValue,2);
+            System.out.println(decimalValue);
+//            System.out.println(RTypeAndValue);
+        }
+        if (Objects.equals(value, "sw")) {
+            String opcode_sw = "011";
+            String ITypeSwValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
+            int decimalValue = Integer.parseInt(ITypeSwValue,2);
+            System.out.println(decimalValue);
+//            System.out.println(RTypeNandValue);
+        }
+        if (Objects.equals(value, "beq")) {
+            String opcode_beq = "100";
+            String ITypeBeqValue = opcode_beq + binaryField0 + binaryField1 + binaryField2;
+            int decimalValue = Integer.parseInt(ITypeBeqValue,2);
+            System.out.println(decimalValue);
+//            System.out.println(ITypeBeqValue);
+        }
+    }
+
+    public void JTypeInstruction(Map<String, String> instruction_set) {
+            String value = instruction_set.get("instruction");
+            String field0 = instruction_set.get("field0");
+            String field1 = instruction_set.get("field1");
+            String field2 = instruction_set.get("field2");
+
+            int intValueField0 = Integer.parseInt(field0);
+            int intValueField1 = Integer.parseInt(field1);
+            int intValueField2 = Integer.parseInt(field2);
+
+            String binaryField0 = "";
+            String binaryField1 = "";
+            String binaryField2;
+
+            if (intValueField0 >= 0) {
+                // Positive integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
+            }
+            if (intValueField0 < 0) {
+                // Negative integer
+                binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
+            }
+
+            if (intValueField1 >= 0) {
+                binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
+            }
+            if (intValueField1 < 0) {
+                binaryField1 = String.format("%3s", Integer.toBinaryString(-intValueField1)).replaceAll(" ", "1");
+            }
+
+            binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField1)).replaceAll(" ", "0");
+
+            if (Objects.equals(value, "jalr")) {
+                String opcode_jalr = "101";
+                String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
+                int decimalValue = Integer.parseInt(JTypeJalrValue,2);
+                System.out.println(decimalValue);
+//              System.out.println(JTypeJalrValue);
+            }
+        }
+
+    public void OTypeInstruction(Map<String, String> instruction_set) {
+            String value = instruction_set.get("instruction");
+
+            String binaryField0 = "0000000000000000000000";
+
+            if (Objects.equals(value, "halt")) {
+                String opcode_halt = "110";
+                String OTypeHaltValue = opcode_halt + binaryField0;
+                int decimalValue = Integer.parseInt(OTypeHaltValue,2);
+                System.out.println(decimalValue);
+//                System.out.println(OTypeHaltValue);
+            }
+            if (Objects.equals(value, "noop")) {
+                String opcode_noop = "111";
+                String OTypeLoopValue = opcode_noop + binaryField0;
+                int decimalValue = Integer.parseInt(OTypeLoopValue,2);
+                System.out.println(decimalValue);
+//                System.out.println(OTypeLoopValue);
+            }
+    }
+
+    public Integer getFill(Map<String, String> instruction_set) {
+        String field0 = instruction_set.get("field0");
+
+        if (isInteger(field0)) {
+            int numericValue = Integer.parseInt(field0);
+            System.out.println(numericValue);
+            return numericValue;
+        } else {
+            Integer labelAddress = getAddressForLabel(field0);
+            if (labelAddress != null) {
+                System.out.println(labelAddress);
+                return labelAddress;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public Integer getAddressForLabel(String label) {
+        return labelToAddressMap.get(label);
+    }
+
+    public static void main(String[] args) {
+        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/Project ComArch/src/Assember/instruction");
+//        Read.printMappedLines();
+//        System.out.println(Read.getAddressForLabel("five"));
+        Read.clarifyInstruction();
+    }
 }
