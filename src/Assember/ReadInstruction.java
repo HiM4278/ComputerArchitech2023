@@ -171,7 +171,7 @@ public class ReadInstruction {
                 String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
                 int decimalValue = Integer.parseInt(RTypeAndValue,2);
                 System.out.println(decimalValue);
-                System.out.println(RTypeAndValue);
+//                System.out.println(RTypeAndValue);
             }
             if (Objects.equals(value, "nand")) {
                 String opcode_nand = "001";
@@ -225,20 +225,24 @@ public class ReadInstruction {
 
         if (Objects.equals(value, "lw")) {
             String opcode_lw = "010";
-            String RTypeAndValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
-            int decimalValue = Integer.parseInt(RTypeAndValue,2);
+            String ITypeLwValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
+            int decimalValue = Integer.parseInt(ITypeLwValue,2);
             System.out.println(decimalValue);
-            System.out.println(RTypeAndValue);
+//            System.out.println(RTypeAndValue);
         }
         if (Objects.equals(value, "sw")) {
             String opcode_sw = "011";
-            String RTypeNandValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
-            System.out.println(RTypeNandValue);
+            String ITypeSwValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
+            int decimalValue = Integer.parseInt(ITypeSwValue,2);
+            System.out.println(decimalValue);
+//            System.out.println(RTypeNandValue);
         }
         if (Objects.equals(value, "beq")) {
             String opcode_beq = "100";
             String ITypeBeqValue = opcode_beq + binaryField0 + binaryField1 + binaryField2;
-            System.out.println(ITypeBeqValue);
+            int decimalValue = Integer.parseInt(ITypeBeqValue,2);
+            System.out.println(decimalValue);
+//            System.out.println(ITypeBeqValue);
         }
     }
 
@@ -277,7 +281,9 @@ public class ReadInstruction {
             if (Objects.equals(value, "jalr")) {
                 String opcode_jalr = "101";
                 String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
-                System.out.println(JTypeJalrValue);
+                int decimalValue = Integer.parseInt(JTypeJalrValue,2);
+                System.out.println(decimalValue);
+//              System.out.println(JTypeJalrValue);
             }
         }
 
@@ -289,12 +295,16 @@ public class ReadInstruction {
             if (Objects.equals(value, "halt")) {
                 String opcode_halt = "110";
                 String OTypeHaltValue = opcode_halt + binaryField0;
-                System.out.println(OTypeHaltValue);
+                int decimalValue = Integer.parseInt(OTypeHaltValue,2);
+                System.out.println(decimalValue);
+//                System.out.println(OTypeHaltValue);
             }
             if (Objects.equals(value, "noop")) {
                 String opcode_noop = "111";
                 String OTypeLoopValue = opcode_noop + binaryField0;
-                System.out.println(OTypeLoopValue);
+                int decimalValue = Integer.parseInt(OTypeLoopValue,2);
+                System.out.println(decimalValue);
+//                System.out.println(OTypeLoopValue);
             }
     }
     private boolean isInteger(String str) {
@@ -308,10 +318,11 @@ public class ReadInstruction {
     public Integer getAddressForLabel(String label) {
         return labelToAddressMap.get(label);
     }
+
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("D:\\ComputerArchitech\\src\\assemnly.txt");
-        Read.printMappedLines();
-        System.out.println(Read.getAddressForLabel("start"));
+        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/Project ComArch/src/Assember/instruction");
+//        Read.printMappedLines();
+//        System.out.println(Read.getAddressForLabel("five"));
         Read.clarifyInstruction();
     }
 }
