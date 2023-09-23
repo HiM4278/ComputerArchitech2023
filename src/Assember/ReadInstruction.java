@@ -257,7 +257,7 @@ public class ReadInstruction {
 
             int intValueField0 = Integer.parseInt(field0);
             int intValueField1 = Integer.parseInt(field1);
-            int intValueField2 = Integer.parseInt(field2);
+            //int intValueField2 = Integer.parseInt(field2);
 
             String binaryField0 = "";
             String binaryField1 = "";
@@ -343,7 +343,7 @@ public class ReadInstruction {
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/Project ComArch/src/Assember/instruction");
+        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/ComputerArchitech2023/src/Assember/Assem");
 //        Read.printMappedLines();
 //        System.out.println(Read.getAddressForLabel("five"));
         Read.clarifyInstruction();
