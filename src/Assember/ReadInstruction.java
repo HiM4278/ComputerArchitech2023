@@ -127,6 +127,9 @@ public class ReadInstruction {
                 case "noop":
                     this.OTypeInstruction(instruction_set);
                     break;
+                case ".fill":
+                    this.getFill(instruction_set);
+                    break;
                 default:
                     System.out.println("error");
             }
@@ -307,6 +310,25 @@ public class ReadInstruction {
 //                System.out.println(OTypeLoopValue);
             }
     }
+
+    public Integer getFill(Map<String, String> instruction_set) {
+        String field0 = instruction_set.get("field0");
+
+        if (isInteger(field0)) {
+            int numericValue = Integer.parseInt(field0);
+            System.out.println(numericValue);
+            return numericValue;
+        } else {
+            Integer labelAddress = getAddressForLabel(field0);
+            if (labelAddress != null) {
+                System.out.println(labelAddress);
+                return labelAddress;
+            }
+        }
+
+        return null;
+    }
+
     private boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -315,6 +337,7 @@ public class ReadInstruction {
             return false;
         }
     }
+
     public Integer getAddressForLabel(String label) {
         return labelToAddressMap.get(label);
     }
