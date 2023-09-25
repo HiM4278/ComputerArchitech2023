@@ -30,7 +30,7 @@ public class Main {
                 w_ALUControl
         );
 
-        alu.execute();
+//        w_alu_operand1.setData(455);
         printBIN(w_alu_result.getData());
     }
 

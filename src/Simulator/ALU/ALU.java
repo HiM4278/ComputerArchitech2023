@@ -1,5 +1,6 @@
 package Simulator.ALU;
 
-public interface ALU {
-    void execute();
+import Simulator.Hardware;
+
+public interface ALU extends Hardware {
 }
