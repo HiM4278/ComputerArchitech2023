@@ -103,35 +103,12 @@ public class ReadInstruction {
 
             //Match instruction and opcode
             switch (value) {
-                case "add":
-                    this.RTypeInstruction(instruction_set);
-                    break;
-                case "nand":
-                    this.RTypeInstruction(instruction_set);
-                    break;
-                case "lw":
-                    this.ITypeInstruction(instruction_set);
-                    break;
-                case "sw":
-                    this.ITypeInstruction(instruction_set);
-                    break;
-                case "beq":
-                    this.ITypeInstruction(instruction_set);
-                    break;
-                case "jalr":
-                    this.JTypeInstruction(instruction_set);
-                    break;
-                case "halt":
-                    this.OTypeInstruction(instruction_set);
-                    break;
-                case "noop":
-                    this.OTypeInstruction(instruction_set);
-                    break;
-                case ".fill":
-                    this.getFill(instruction_set);
-                    break;
-                default:
-                    System.out.println("error");
+                case "add", "nand" -> this.RTypeInstruction(instruction_set);
+                case "lw", "sw", "beq" -> this.ITypeInstruction(instruction_set);
+                case "jalr" -> this.JTypeInstruction(instruction_set);
+                case "halt", "noop" -> this.OTypeInstruction(instruction_set);
+                case ".fill" -> this.getFill(instruction_set);
+                default -> System.out.println("error");
             }
         }
     }
@@ -152,11 +129,9 @@ public class ReadInstruction {
             String binaryField2;
 
             if (intValueField0 >= 0) {
-                // Positive integer
                 binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
             }
             if (intValueField0 < 0) {
-                // Negative integer
                 binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
             }
 
@@ -174,14 +149,12 @@ public class ReadInstruction {
                 String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
                 int decimalValue = Integer.parseInt(RTypeAndValue,2);
                 System.out.println(decimalValue);
-//                System.out.println(RTypeAndValue);
             }
             if (Objects.equals(value, "nand")) {
                 String opcode_nand = "001";
                 String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
                 int decimalValue = Integer.parseInt(RTypeNandValue,2);
                 System.out.println(decimalValue);
-//              System.out.println(RTypeNandValue);
             }
         }
 
@@ -206,11 +179,9 @@ public class ReadInstruction {
         String binaryField2 = "";
 
         if (intValueField0 >= 0) {
-            // Positive integer
             binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
         }
         if (intValueField0 < 0) {
-            // Negative integer
             binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
         }
 
@@ -233,21 +204,18 @@ public class ReadInstruction {
             String ITypeLwValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
             int decimalValue = Integer.parseInt(ITypeLwValue,2);
             System.out.println(decimalValue);
-//            System.out.println(RTypeAndValue);
         }
         if (Objects.equals(value, "sw")) {
             String opcode_sw = "011";
             String ITypeSwValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
             int decimalValue = Integer.parseInt(ITypeSwValue,2);
             System.out.println(decimalValue);
-//            System.out.println(RTypeNandValue);
         }
         if (Objects.equals(value, "beq")) {
             String opcode_beq = "100";
             String ITypeBeqValue = opcode_beq + binaryField0 + binaryField1 + binaryField2;
             int decimalValue = Integer.parseInt(ITypeBeqValue,2);
             System.out.println(decimalValue);
-//            System.out.println(ITypeBeqValue);
         }
     }
 
@@ -259,18 +227,15 @@ public class ReadInstruction {
 
             int intValueField0 = Integer.parseInt(field0);
             int intValueField1 = Integer.parseInt(field1);
-            //int intValueField2 = Integer.parseInt(field2);
 
             String binaryField0 = "";
             String binaryField1 = "";
             String binaryField2;
 
             if (intValueField0 >= 0) {
-                // Positive integer
                 binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replaceAll(" ", "0");
             }
             if (intValueField0 < 0) {
-                // Negative integer
                 binaryField0 = String.format("%3s", Integer.toBinaryString(-intValueField0)).replaceAll(" ", "1");
             }
 
@@ -288,7 +253,6 @@ public class ReadInstruction {
                 String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
                 int decimalValue = Integer.parseInt(JTypeJalrValue,2);
                 System.out.println(decimalValue);
-//              System.out.println(JTypeJalrValue);
             }
         }
 
@@ -302,14 +266,12 @@ public class ReadInstruction {
                 String OTypeHaltValue = opcode_halt + binaryField0;
                 int decimalValue = Integer.parseInt(OTypeHaltValue,2);
                 System.out.println(decimalValue);
-//                System.out.println(OTypeHaltValue);
             }
             if (Objects.equals(value, "noop")) {
                 String opcode_noop = "111";
                 String OTypeLoopValue = opcode_noop + binaryField0;
                 int decimalValue = Integer.parseInt(OTypeLoopValue,2);
                 System.out.println(decimalValue);
-//                System.out.println(OTypeLoopValue);
             }
     }
 
