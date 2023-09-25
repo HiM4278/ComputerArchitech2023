@@ -1,6 +1,7 @@
 package Simulator.Register;
 
-public interface Register {
-    public void ReadData();
-    public void WriteData();
+import Simulator.Hardware;
+
+public interface Register extends Hardware {
+
 }
