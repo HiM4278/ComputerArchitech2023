@@ -14,6 +14,14 @@ public class MainALU implements ALU{
         this.w_result = w_result;
         this.w_zero = w_zero;
         this.w_ALUControl = w_ALUControl;
+        subWire();
+        execute();
+    }
+
+    private void subWire(){
+        this.w_operand1.subscribe(this);
+        this.w_operand2.subscribe(this);
+        this.w_ALUControl.subscribe(this);
     }
 
     private int and(int a, int b){

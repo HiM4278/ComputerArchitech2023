@@ -1,7 +1,11 @@
 package Simulator;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Wire {
     private int data;
+    private final Set<Hardware> h_inputs = new HashSet<>();
 
     public Wire(){
         this.data = 0;
@@ -11,8 +15,17 @@ public class Wire {
         this.data = data;
     }
 
+    public void subscribe(Hardware hardware) {
+        h_inputs.add(hardware);
+    }
+
+    private void update(){
+        for(Hardware hardware : h_inputs) hardware.execute();
+    }
+
     public void setData(int data){
         this.data = data;
+        update();
     }
 
     public int getData(){
