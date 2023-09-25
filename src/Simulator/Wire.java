@@ -37,6 +37,6 @@ public class Wire {
     }
 
     public int getRangeData(int lsb_index, int msb_index){
-        return (this.data >> lsb_index) & (~(0b1 << msb_index - lsb_index + 1));
+        return (this.data >> lsb_index) & (-1 >>> (32 - (msb_index - lsb_index + 1)));
     }
 }
