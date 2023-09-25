@@ -48,18 +48,28 @@ public class ReadInstruction {
         Map<String, String> lineMap = new HashMap<>();
         lineMap.put("Address", num.toString());
         if (parts.length >= 1) {
-            if (!parts[0].isEmpty()) {
-                lineMap.put("Label", parts[0]);
-                labelToAddressMap.put(parts[0], num);
+            if (isReservedWords(parts[0])) {
+                lineMap.put("instruction", parts[0]);
             }
+            lineMap.put("Label", parts[0]);
+            labelToAddressMap.put(parts[0], num);
         }
         if (parts.length >= 2) {
+            if (isReservedWords(parts[0])){
+                lineMap.put("field0",parts[1]);
+            }
             lineMap.put("instruction", parts[1]);
         }
         if (parts.length >= 3) {
+            if (isReservedWords(parts[0])){
+                lineMap.put("field1",parts[1]);
+            }
             lineMap.put("field0", parts[2]);
         }
         if (parts.length >= 4) {
+            if (isReservedWords(parts[0])){
+                lineMap.put("field2",parts[1]);
+            }
             lineMap.put("field1", parts[3]);
         }
         if (parts.length >= 5) {
@@ -73,7 +83,7 @@ public class ReadInstruction {
     }
 
     private String[] splitLine(String line) {
-        String[] parts = line.split(" +", 6);
+        String[] parts = line.split("\\s+", 6);
         for (int i = 0; i < parts.length; i++) {
             parts[i] = parts[i].trim();
         }
@@ -97,7 +107,6 @@ public class ReadInstruction {
 
 
     public void clarifyInstruction() {
-        String clarify = "";
         for (Map<String, String> instruction_set : mappedLines) {
             String value = instruction_set.get("instruction");
 
@@ -148,13 +157,13 @@ public class ReadInstruction {
                 String opcode_and = "000";
                 String RTypeAndValue = opcode_and + binaryField0 + binaryField1 + binaryField2;
                 int decimalValue = Integer.parseInt(RTypeAndValue,2);
-                System.out.println(decimalValue);
+                System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
             }
             if (Objects.equals(value, "nand")) {
                 String opcode_nand = "001";
                 String RTypeNandValue = opcode_nand + binaryField0 + binaryField1 + binaryField2;
                 int decimalValue = Integer.parseInt(RTypeNandValue,2);
-                System.out.println(decimalValue);
+                System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
             }
         }
 
@@ -171,7 +180,11 @@ public class ReadInstruction {
             intValueField2 = Integer.parseInt(field2);
         } else {
             intValueField2 = getAddressForLabel(field2);
+            if (Objects.equals(value, "beq")){
+                intValueField2 = intValueField2 - Integer.parseInt(instruction_set.get("Address"));
+            }
         }
+
 
 
         String binaryField0 = "";
@@ -203,19 +216,19 @@ public class ReadInstruction {
             String opcode_lw = "010";
             String ITypeLwValue = opcode_lw + binaryField0 + binaryField1 + binaryField2;
             int decimalValue = Integer.parseInt(ITypeLwValue,2);
-            System.out.println(decimalValue);
+            System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
         }
         if (Objects.equals(value, "sw")) {
             String opcode_sw = "011";
             String ITypeSwValue = opcode_sw + binaryField0 + binaryField1 + binaryField2;
             int decimalValue = Integer.parseInt(ITypeSwValue,2);
-            System.out.println(decimalValue);
+            System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
         }
         if (Objects.equals(value, "beq")) {
             String opcode_beq = "100";
             String ITypeBeqValue = opcode_beq + binaryField0 + binaryField1 + binaryField2;
             int decimalValue = Integer.parseInt(ITypeBeqValue,2);
-            System.out.println(decimalValue);
+            System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
         }
     }
 
@@ -223,7 +236,7 @@ public class ReadInstruction {
             String value = instruction_set.get("instruction");
             String field0 = instruction_set.get("field0");
             String field1 = instruction_set.get("field1");
-            String field2 = instruction_set.get("field2");
+
 
             int intValueField0 = Integer.parseInt(field0);
             int intValueField1 = Integer.parseInt(field1);
@@ -252,47 +265,49 @@ public class ReadInstruction {
                 String opcode_jalr = "101";
                 String JTypeJalrValue = opcode_jalr + binaryField0 + binaryField1 + binaryField2;
                 int decimalValue = Integer.parseInt(JTypeJalrValue,2);
-                System.out.println(decimalValue);
+                System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
             }
         }
 
     public void OTypeInstruction(Map<String, String> instruction_set) {
             String value = instruction_set.get("instruction");
 
-            String binaryField0 = "0000000000000000000000";
+            String binaryField0 = new String(new char[22]).replace('\0','0');
 
             if (Objects.equals(value, "halt")) {
                 String opcode_halt = "110";
                 String OTypeHaltValue = opcode_halt + binaryField0;
                 int decimalValue = Integer.parseInt(OTypeHaltValue,2);
-                System.out.println(decimalValue);
+                System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
             }
             if (Objects.equals(value, "noop")) {
                 String opcode_noop = "111";
                 String OTypeLoopValue = opcode_noop + binaryField0;
                 int decimalValue = Integer.parseInt(OTypeLoopValue,2);
-                System.out.println(decimalValue);
+                System.out.println("(address "+instruction_set.get("Address")+"): "+decimalValue);
             }
     }
 
-    public Integer getFill(Map<String, String> instruction_set) {
+    public void getFill(Map<String, String> instruction_set) {
         String field0 = instruction_set.get("field0");
 
         if (isInteger(field0)) {
             int numericValue = Integer.parseInt(field0);
-            System.out.println(numericValue);
-            return numericValue;
+            System.out.println("(address "+instruction_set.get("Address")+"): "+numericValue);
         } else {
             Integer labelAddress = getAddressForLabel(field0);
             if (labelAddress != null) {
-                System.out.println(labelAddress);
-                return labelAddress;
+                System.out.println("(address "+instruction_set.get("Address")+"): "+labelAddress);
             }
         }
-
-        return null;
     }
-
+    private boolean isReservedWords(String s){
+        String[] reserve = {"lw", "sw", "add", "nand", "beq", "jalr", "halt", "noop",".fill"};
+        for(String word: reserve) {
+            if(s.equals(word)) return true;
+        }
+        return false;
+    }
     private boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -301,15 +316,14 @@ public class ReadInstruction {
             return false;
         }
     }
-
     public Integer getAddressForLabel(String label) {
         return labelToAddressMap.get(label);
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/ComputerArchitech2023/src/Assember/Assem");
+        ReadInstruction Read = new ReadInstruction("D:\\ComputerArchitech\\ComputerArchitech2023\\src\\assembly.txt");
 //        Read.printMappedLines();
-//        System.out.println(Read.getAddressForLabel("five"));
+//        System.out.println(Read.getAddressForLabel("start"));
         Read.clarifyInstruction();
     }
 }
