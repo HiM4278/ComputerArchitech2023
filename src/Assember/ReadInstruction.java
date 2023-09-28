@@ -35,7 +35,6 @@ public class ReadInstruction {
                 mapLineIntoParts(line, linenumber);
                 linenumber++;
             }
-
             bufferedReader.close();
             fileReader.close();
         } catch (IOException e) {
@@ -78,7 +77,6 @@ public class ReadInstruction {
         if (parts.length >= 6) {
             lineMap.put("comments", parts[5]);
         }
-
         mappedLines.add(lineMap);
     }
 
@@ -87,7 +85,6 @@ public class ReadInstruction {
         for (int i = 0; i < parts.length; i++) {
             parts[i] = parts[i].trim();
         }
-
         return parts;
     }
 
@@ -150,9 +147,15 @@ public class ReadInstruction {
 
         int intValueField0 = Integer.parseInt(field0);
         int intValueField1 = Integer.parseInt(field1);
-        int intValueField2 = isInteger(field2) ? Integer.parseInt(field2) : getAddressForLabel(field2);
-
-        if ("beq".equals(value)) intValueField2 -= Integer.parseInt(instructionSet.get("Address"));
+        int intValueField2;
+        if(isInteger(field2)){
+            intValueField2 = Integer.parseInt(field2);
+        } else {
+            intValueField2 = getAddressForLabel(field2);
+            if (Objects.equals(value, "beq")){
+                intValueField2 = (intValueField2 - 1) - Integer.parseInt(instructionSet.get("Address"));
+            }
+        }
 
         String opcode = switch (value) {
             case "lw" -> "010";
