@@ -2,34 +2,25 @@ package Simulator.Register;
 import Simulator.Wire;
 public class PC implements Register{
 
-    private int data[] = new int[1];
+    private int data = 0;
     private Wire wireInput;
     private Wire wireOutput;
-    private Wire wireControl;
 
 
-    public PC(int[] data, Wire wireInput, Wire wireOutput, Wire wireControl){
-        this.data = data;
+    public PC(Wire wireInput, Wire wireOutput){
         this.wireInput = wireInput;
         this.wireOutput = wireOutput;
-        this.wireControl = wireControl;
+        subWire();
+        execute();
+    }
+
+    public void subWire(){
+        this.wireInput.subscribe(this);
     }
     @Override
-    public void ReadData() {
-
-    }
-
-    @Override
-    public void WriteData() {
-
-    }
-
-    public void increase(){
-
-    }
-
-    public void Jump(int addr){
-
+    public void execute() {
+        data = wireInput.getData();
+        wireOutput.setData(data);
     }
 }
 
