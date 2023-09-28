@@ -116,6 +116,7 @@ public class ReadInstruction {
         }
     }
 
+
     public void RTypeInstruction(Map<String, String> instructionSet) {
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
@@ -139,6 +140,21 @@ public class ReadInstruction {
         printInstructionValue(instructionSet, RTypeValue);
     }
 
+    public static String convertNegativeNumberToBinary(int n, int bits) {
+        int maxPositiveValue = (1 << (bits - 1)) - 1;
+        if (n > maxPositiveValue || n < -maxPositiveValue - 1) {
+            throw new IllegalArgumentException("Input value out of range for " + bits + "-bit two's complement");
+        }
+        if (n < 0) {
+            n = (1 << bits) + n;
+        }
+        String binary = Integer.toBinaryString(n);
+        while (binary.length() < bits) {
+            binary = "0" + binary;
+        }
+        return binary;
+    }
+
     public void ITypeInstruction(Map<String, String> instructionSet) {
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
@@ -148,13 +164,23 @@ public class ReadInstruction {
         int intValueField0 = Integer.parseInt(field0);
         int intValueField1 = Integer.parseInt(field1);
         int intValueField2;
-        if(isInteger(field2)){
+        String binaryField2;
+        if (isInteger(field2)) {
             intValueField2 = Integer.parseInt(field2);
+            if (intValueField2 < 0) {
+                binaryField2 = convertNegativeNumberToBinary(intValueField2, 16);
+            } else {
+                binaryField2 = Integer.toBinaryString(intValueField2);
+                while (binaryField2.length() < 16) {
+                    binaryField2 = "0" + binaryField2;
+                }
+            }
         } else {
             intValueField2 = getAddressForLabel(field2);
-            if (Objects.equals(value, "beq")){
+            if (Objects.equals(value, "beq")) {
                 intValueField2 = (intValueField2 - 1) - Integer.parseInt(instructionSet.get("Address"));
             }
+            binaryField2 = convertNegativeNumberToBinary(intValueField2, 16);
         }
 
         String opcode = switch (value) {
@@ -163,10 +189,9 @@ public class ReadInstruction {
             case "beq" -> "100";
             default -> "";
         };
-
         String ITypeValue = opcode + formatBinary(intValueField0, 3)
                 + formatBinary(intValueField1, 3)
-                + formatBinary(intValueField2, 16);
+                + binaryField2;
 
         printInstructionValue(instructionSet, ITypeValue);
     }
