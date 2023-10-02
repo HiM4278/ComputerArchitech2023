@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class ReadInstruction {
     private static ReadInstruction instance;
+    private Set<String> encounteredLabels = new HashSet<>();
     private String filePath;
     private List<Map<String, String>> mappedLines;
     private Map<String, Integer> labelToAddressMap;
@@ -47,17 +48,30 @@ public class ReadInstruction {
         Map<String, String> lineMap = new HashMap<>();
         lineMap.put("Address", num.toString());
         if (parts.length >= 1) {
-            if (isReservedWords(parts[0])) {
-                lineMap.put("instruction", parts[0]);
+            String firstPart = parts[0].trim();
+            if (!firstPart.isEmpty()) {
+                if (isReservedWords(firstPart)) {
+                    lineMap.put("instruction", firstPart);
+                }
+                if (encounteredLabels.contains(firstPart)) {
+                    System.err.println("Duplicate label found: " + firstPart + " by line " + (num + 1));
+                    System.exit(1);
+                } else {
+                    lineMap.put("Label", firstPart);
+                    labelToAddressMap.put(firstPart, num);
+                    encounteredLabels.add(firstPart);
+                }
             }
-            lineMap.put("Label", parts[0]);
-            labelToAddressMap.put(parts[0], num);
         }
         if (parts.length >= 2) {
             if (isReservedWords(parts[0])){
                 lineMap.put("field0",parts[1]);
             }
             lineMap.put("instruction", parts[1]);
+            if (!isReservedWords(lineMap.get("instruction"))){
+                System.err.println("Opcode not found: " + parts[1] + " by line " + (num + 1));
+                System.exit(1);
+            }
         }
         if (parts.length >= 3) {
             if (isReservedWords(parts[0])){
@@ -182,7 +196,6 @@ public class ReadInstruction {
             }
             binaryField2 = convertNegativeNumberToBinary(intValueField2, 16);
         }
-
         String opcode = switch (value) {
             case "lw" -> "010";
             case "sw" -> "011";
@@ -258,6 +271,10 @@ public class ReadInstruction {
     private boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
+            if (Integer.parseInt(str) > 32767 || Integer.parseInt(str) < -32768) {
+                System.err.println("Use offset more than 16 bits: " + Integer.parseInt(str));
+                System.exit(1);
+            }
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -265,11 +282,20 @@ public class ReadInstruction {
     }
 
     public Integer getAddressForLabel(String label) {
-        return labelToAddressMap.get(label);
+        Integer address = labelToAddressMap.get(label);
+        if (address == null) {
+            System.err.println("The label " + label + " is undefined" );
+            System.exit(1);
+        }
+        if (address > 32767 || address < -32768) {
+            System.err.println("Use offset more than 16 bits: " + address);
+            System.exit(1);
+        }
+        return address;
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/ComputerArchitech2023/src/Assember/Assem.txt");
+        ReadInstruction Read = new ReadInstruction("D:\\ComputerArchitech\\ComputerArchitech2023\\src\\assembly.txt");
 //        Read.printMappedLines();
 //        System.out.println(Read.getAddressForLabel("start"));
         Read.clarifyInstruction();
