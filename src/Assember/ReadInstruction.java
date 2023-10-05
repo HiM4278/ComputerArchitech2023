@@ -3,6 +3,8 @@ package Assember;
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class ReadInstruction {
@@ -130,7 +132,6 @@ public class ReadInstruction {
         }
     }
 
-
     public void RTypeInstruction(Map<String, String> instructionSet) {
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
@@ -150,8 +151,7 @@ public class ReadInstruction {
         String RTypeValue = opcode + formatBinary(intValueField0, 3)
                 + formatBinary(intValueField1, 3)
                 + formatBinary(intValueField2, 16);
-
-        printInstructionValue(instructionSet, RTypeValue);
+        printInstructionValue(RTypeValue);
     }
 
     public static String convertNegativeNumberToBinary(int n, int bits) {
@@ -205,8 +205,7 @@ public class ReadInstruction {
         String ITypeValue = opcode + formatBinary(intValueField0, 3)
                 + formatBinary(intValueField1, 3)
                 + binaryField2;
-
-        printInstructionValue(instructionSet, ITypeValue);
+        printInstructionValue(ITypeValue);
     }
 
     public void JTypeInstruction(Map<String, String> instructionSet) {
@@ -224,21 +223,18 @@ public class ReadInstruction {
         if ("jalr".equals(value)) {
             String opcodeJalr = "101";
             String JTypeJalrValue = opcodeJalr + binaryField0 + binaryField1 + binaryField2;
-            printInstructionValue(instructionSet, JTypeJalrValue);
+            printInstructionValue(JTypeJalrValue);
         }
     }
 
     public void OTypeInstruction(Map<String, String> instructionSet) {
         String value = instructionSet.get("instruction");
         String opcode = "";
-
         if ("halt".equals(value)) opcode = "110";
         else if ("noop".equals(value)) opcode = "111";
-
         String binaryField0 = "0".repeat(22);
         String OTypeValue = opcode + binaryField0;
-
-        printInstructionValue(instructionSet, OTypeValue);
+        printInstructionValue(OTypeValue);
     }
 
     private String getBinaryString(int value, int width) {
@@ -246,9 +242,18 @@ public class ReadInstruction {
                 .replace(' ', value < 0 ? '1' : '0');
     }
 
-    private void printInstructionValue(Map<String, String> instructionSet, String binaryValue) {
+    private void printInstructionValue(String binaryValue) {
         int decimalValue = Integer.parseInt(binaryValue, 2);
-        System.out.println("(address " + instructionSet.get("Address") + "): " + decimalValue);
+//        System.out.println("(address " + instructionSet.get("Address") + "): " + decimalValue);
+        System.out.println(decimalValue);
+        String filePath = "output.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            String textToWrite = String.valueOf(decimalValue);
+            writer.write(textToWrite);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String formatBinary(int value, int width) {
@@ -258,9 +263,17 @@ public class ReadInstruction {
 
     public void getFill(Map<String, String> instructionSet) {
         String field0 = instructionSet.get("field0");
-
         int numericValue = isInteger(field0) ? Integer.parseInt(field0) : getAddressForLabel(field0);
-        System.out.println("(address " + instructionSet.get("Address") + "): " + numericValue);
+//        System.out.println("(address " + instructionSet.get("Address") + "): " + numericValue);
+        System.out.println(numericValue);
+        String filePath = "output.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            String textToWrite = String.valueOf(numericValue);
+            writer.write(textToWrite);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isReservedWords(String s) {
@@ -295,7 +308,7 @@ public class ReadInstruction {
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("D:\\ComputerArchitech\\ComputerArchitech2023\\src\\assembly.txt");
+        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/ComputerArchitech2023/src/Assember/assembly.txt");
 //        Read.printMappedLines();
 //        System.out.println(Read.getAddressForLabel("start"));
         Read.clarifyInstruction();
