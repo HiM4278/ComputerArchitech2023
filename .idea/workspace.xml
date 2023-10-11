@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="Add function subWire() and implement">
+    <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="Implement Control">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/ALUControl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/Control.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Control/Control.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Memory/MainMemory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Memory/MemoryInstruction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Memory/Memory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Memory/Memory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Register/MainRegister.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Register/MainRegister.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,20 +38,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Semester 2_65/Object Oriented Programming Lab/lab09",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -78,7 +79,9 @@
       <workItem from="1695737539249" duration="4994000" />
       <workItem from="1695829906358" duration="28000" />
       <workItem from="1696173813483" duration="674000" />
-      <workItem from="1696610098380" duration="10727000" />
+      <workItem from="1696610098380" duration="11491000" />
+      <workItem from="1696936656937" duration="637000" />
+      <workItem from="1697027798152" duration="9393000" />
     </task>
     <task id="LOCAL-00001" summary="Extend Interface Hardware.">
       <created>1695656010827</created>
@@ -108,7 +111,14 @@
       <option name="project" value="LOCAL" />
       <updated>1695656310536</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Implement Control">
+      <created>1696628158330</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1696628158330</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -129,6 +139,7 @@
     <MESSAGE value="Extend Interface Hardware." />
     <MESSAGE value="Fixed function getRangeData()" />
     <MESSAGE value="Add function subWire() and implement" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add function subWire() and implement" />
+    <MESSAGE value="Implement Control" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement Control" />
   </component>
 </project>
