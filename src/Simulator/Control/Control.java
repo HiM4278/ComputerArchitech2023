@@ -1,6 +1,8 @@
 package Simulator.Control;
 
-public interface Control {
+import Simulator.Hardware;
 
-    public void SetControl();
+public interface Control extends Hardware {
+
+
 }

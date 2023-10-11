@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="Class MainALU completed">
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Simulator/ALU/ALU.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Simulator/ALU/MainALU.java" afterDir="false" />
+    <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="Add function subWire() and implement">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ComputerArchitech.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ComputerArchitech.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assember/ReadInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assember/ReadInstruction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulator/Wire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Wire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/ALUControl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/Control.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Control/Control.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,13 +19,15 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="oxzzy0ic" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -40,24 +40,19 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.javacompiler&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="Simulator" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="ComputerArchitech" />
@@ -65,23 +60,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReadInstruction" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Assember.ReadInstruction" />
-      <module name="ComputerArchitech" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Assember.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.ReadInstruction" />
       </list>
     </recent_temporary>
   </component>
@@ -94,34 +75,38 @@
       <option name="presentableId" value="Default" />
       <updated>1695284909273</updated>
       <workItem from="1695284910908" duration="122000" />
+      <workItem from="1695737539249" duration="4994000" />
+      <workItem from="1695829906358" duration="28000" />
+      <workItem from="1696173813483" duration="674000" />
+      <workItem from="1696610098380" duration="10727000" />
     </task>
-    <task id="LOCAL-00001" summary="Create Root Folders">
-      <created>1695286010999</created>
+    <task id="LOCAL-00001" summary="Extend Interface Hardware.">
+      <created>1695656010827</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1695286010999</updated>
+      <updated>1695656010827</updated>
     </task>
-    <task id="LOCAL-00002" summary="Class Wire">
-      <created>1695288123669</created>
+    <task id="LOCAL-00002" summary="Fixed function getRangeData()">
+      <created>1695656162803</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1695288123669</updated>
+      <updated>1695656162803</updated>
     </task>
-    <task id="LOCAL-00003" summary="Class Wire update">
-      <created>1695288335445</created>
+    <task id="LOCAL-00003" summary="Add function subWire() and implement">
+      <created>1695656282815</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1695288335445</updated>
+      <updated>1695656282815</updated>
     </task>
-    <task id="LOCAL-00004" summary="Move class Wire to package Simulator">
-      <created>1695288551967</created>
+    <task id="LOCAL-00004" summary="Add function subWire() and implement">
+      <created>1695656310536</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1695288551967</updated>
+      <updated>1695656310536</updated>
     </task>
     <option name="localTasksCounter" value="5" />
     <servers />
@@ -141,11 +126,9 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Create Root Folders" />
-    <MESSAGE value="Class Wire" />
-    <MESSAGE value="Class Wire update" />
-    <MESSAGE value="Move class Wire to package Simulator" />
-    <MESSAGE value="Class MainALU completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Class MainALU completed" />
+    <MESSAGE value="Extend Interface Hardware." />
+    <MESSAGE value="Fixed function getRangeData()" />
+    <MESSAGE value="Add function subWire() and implement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add function subWire() and implement" />
   </component>
 </project>
