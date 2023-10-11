@@ -96,6 +96,11 @@ public class ReadInstruction {
         mappedLines.add(lineMap);
     }
 
+    private boolean isReservedWords(String s) {
+        String[] reserve = {"lw", "sw", "add", "nand", "beq", "jalr", "halt", "noop", ".fill"};
+        return Arrays.asList(reserve).contains(s);
+    }
+
     private String[] splitLine(String line) {
         String[] parts = line.split("\\s+", 6);
         for (int i = 0; i < parts.length; i++) {
@@ -148,25 +153,11 @@ public class ReadInstruction {
             default -> "";
         };
 
-        String RTypeValue = opcode + formatBinary(intValueField0, 3)
-                + formatBinary(intValueField1, 3)
-                + formatBinary(intValueField2, 16);
-        printInstructionValue(RTypeValue);
-    }
+        String RTypeValue = opcode + String.format("%3s", Integer.toBinaryString(intValueField0)).replace(' ', '0')
+                + String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0')
+                + String.format("%16s", Integer.toBinaryString(intValueField2)).replace(' ', '0');
 
-    public static String convertNegativeNumberToBinary(int n, int bits) {
-        int maxPositiveValue = (1 << (bits - 1)) - 1;
-        if (n > maxPositiveValue || n < -maxPositiveValue - 1) {
-            throw new IllegalArgumentException("Input value out of range for " + bits + "-bit two's complement");
-        }
-        if (n < 0) {
-            n = (1 << bits) + n;
-        }
-        String binary = Integer.toBinaryString(n);
-        while (binary.length() < bits) {
-            binary = "0" + binary;
-        }
-        return binary;
+        printInstructionValue(RTypeValue);
     }
 
     public void ITypeInstruction(Map<String, String> instructionSet) {
@@ -181,14 +172,8 @@ public class ReadInstruction {
         String binaryField2;
         if (isInteger(field2)) {
             intValueField2 = Integer.parseInt(field2);
-            if (intValueField2 < 0) {
-                binaryField2 = convertNegativeNumberToBinary(intValueField2, 16);
-            } else {
-                binaryField2 = Integer.toBinaryString(intValueField2);
-                while (binaryField2.length() < 16) {
-                    binaryField2 = "0" + binaryField2;
-                }
-            }
+            binaryField2 = (intValueField2 < 0) ? convertNegativeNumberToBinary(intValueField2, 16) :
+                    String.format("%16s", Integer.toBinaryString(intValueField2)).replace(' ', '0');
         } else {
             intValueField2 = getAddressForLabel(field2);
             if (Objects.equals(value, "beq")) {
@@ -196,17 +181,21 @@ public class ReadInstruction {
             }
             binaryField2 = convertNegativeNumberToBinary(intValueField2, 16);
         }
+
         String opcode = switch (value) {
             case "lw" -> "010";
             case "sw" -> "011";
             case "beq" -> "100";
             default -> "";
         };
-        String ITypeValue = opcode + formatBinary(intValueField0, 3)
-                + formatBinary(intValueField1, 3)
+
+        String ITypeValue = opcode + String.format("%3s", Integer.toBinaryString(intValueField0)).replace(' ', '0')
+                + String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0')
                 + binaryField2;
+
         printInstructionValue(ITypeValue);
     }
+
 
     public void JTypeInstruction(Map<String, String> instructionSet) {
         String value = instructionSet.get("instruction");
@@ -216,9 +205,9 @@ public class ReadInstruction {
         int intValueField0 = Integer.parseInt(field0);
         int intValueField1 = Integer.parseInt(field1);
 
-        String binaryField0 = getBinaryString(intValueField0, 3);
-        String binaryField1 = getBinaryString(intValueField1, 3);
-        String binaryField2 = getBinaryString(intValueField1, 16);
+        String binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replace(' ', '0');
+        String binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0');
+        String binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField1)).replace(' ', '0');
 
         if ("jalr".equals(value)) {
             String opcodeJalr = "101";
@@ -237,36 +226,18 @@ public class ReadInstruction {
         printInstructionValue(OTypeValue);
     }
 
-    private String getBinaryString(int value, int width) {
-        return String.format("%" + width + "s", Integer.toBinaryString(Math.abs(value)))
-                .replace(' ', value < 0 ? '1' : '0');
+    public void getFill(Map<String, String> instructionSet) {
+        String field0 = instructionSet.get("field0");
+        int numericValue = isInteger(field0) ? Integer.parseInt(field0) : getAddressForLabel(field0);
+        printValueToFile(numericValue, "output.txt");
     }
 
     private void printInstructionValue(String binaryValue) {
         int decimalValue = Integer.parseInt(binaryValue, 2);
-//        System.out.println("(address " + instructionSet.get("Address") + "): " + decimalValue);
-        System.out.println(decimalValue);
-        String filePath = "output.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String textToWrite = String.valueOf(decimalValue);
-            writer.write(textToWrite);
-            writer.newLine();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        printValueToFile(decimalValue, "output.txt");
     }
 
-    private String formatBinary(int value, int width) {
-        String binary = Integer.toBinaryString(Math.abs(value));
-        return String.format("%" + width + "s", binary).replace(' ', value < 0 ? '1' : '0');
-    }
-
-    public void getFill(Map<String, String> instructionSet) {
-        String field0 = instructionSet.get("field0");
-        int numericValue = isInteger(field0) ? Integer.parseInt(field0) : getAddressForLabel(field0);
-//        System.out.println("(address " + instructionSet.get("Address") + "): " + numericValue);
-        System.out.println(numericValue);
-        String filePath = "output.txt";
+    private void printValueToFile(int numericValue, String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             String textToWrite = String.valueOf(numericValue);
             writer.write(textToWrite);
@@ -276,9 +247,19 @@ public class ReadInstruction {
         }
     }
 
-    private boolean isReservedWords(String s) {
-        String[] reserve = {"lw", "sw", "add", "nand", "beq", "jalr", "halt", "noop", ".fill"};
-        return Arrays.asList(reserve).contains(s);
+    public static String convertNegativeNumberToBinary(int n, int bits) {
+        int maxPositiveValue = (1 << (bits - 1)) - 1;
+        if (n > maxPositiveValue || n < -maxPositiveValue - 1) {
+            throw new IllegalArgumentException("Input value out of range for " + bits + "-bit two's complement");
+        }
+        if (n < 0) {
+            n = (1 << bits) + n;
+        }
+        String binary = Integer.toBinaryString(n);
+        while (binary.length() < bits) {
+            binary = "0" + binary;
+        }
+        return binary;
     }
 
     private boolean isInteger(String str) {
