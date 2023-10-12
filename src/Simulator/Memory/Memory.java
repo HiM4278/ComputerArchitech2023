@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 public class Memory{
 
     private final int[] data = new int[65536];
+    private int numMemory = 0;
 
     public Memory(String filename){
         importData(filename);
@@ -23,11 +24,11 @@ public class Memory{
         Charset charset = StandardCharsets.UTF_8;
         try (BufferedReader reader = Files.newBufferedReader(file, charset)){
             String line;
-            int count = 0;
+            numMemory = 0;
             while ((line = reader.readLine()) != null){
                 int result = read(line);
-                data[count] = result;
-                count++;
+                data[numMemory] = result;
+                numMemory++;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -2,19 +2,22 @@ package Simulator.Register;
 import Simulator.Wire;
 public class PC implements Register{
 
-    private int data;
+    public int data;
     private final Wire wireInput;
-    private final Wire wireOutput;
+    private final Wire wireOutput = new Wire();
     private final Wire wireClock;
 
 
-    public PC(Wire wireInput, Wire wireOutput, Wire wireClock){
+    public PC(Wire wireInput, Wire wireClock){
         this.wireInput = wireInput;
-        this.wireOutput = wireOutput;
         this.wireClock = wireClock;
         this.data = 0;
         subWire();
         execute();
+    }
+
+    public Wire w_output() {
+        return wireOutput;
     }
 
     public void subWire(){

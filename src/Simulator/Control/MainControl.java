@@ -46,7 +46,7 @@ public class MainControl implements Control{
             this.wc_ALUOp.set(0b1100);
             this.wc_RegWrite.set(0b1);
         }
-        // I-type lw
+        // lw
         if(control==0b010) {
             this.wc_MemRead.set(0b1);
             this.wc_MemToReg.set(0b1);
