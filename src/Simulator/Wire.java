@@ -7,12 +7,12 @@ public class Wire {
     private int data;
     private final Set<Hardware> h_inputs = new HashSet<>();
 
-    public Wire(){
-        this.data = 0;
-    }
-
     public Wire(int data){
         this.data = data;
+    }
+
+    public Wire(){
+        this(0);
     }
 
     public void subscribe(Hardware hardware) {
