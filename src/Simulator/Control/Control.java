@@ -4,5 +4,4 @@ import Simulator.Hardware;
 
 public interface Control extends Hardware {
 
-
 }

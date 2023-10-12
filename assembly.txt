@@ -1,5 +1,13 @@
-    lw   0    1    one
-    lw   0    2    two
-    add  1    2    2
-one .fill   1
-two .fill   2
+        lw      0        1        five
+        lw      1        2        5
+        lw      0        3        six
+        jalr    3        5
+start   add     1        2        1
+        beq     0        1        2
+        beq     0        0        start
+        noop
+done    halt
+five    .fill   5
+neg1    .fill   -1
+stAddr  .fill   start
+six     .fill   6
