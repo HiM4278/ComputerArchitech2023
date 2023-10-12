@@ -1,7 +1,5 @@
 package Simulator.Memory;
 
-import Simulator.Wire;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -13,28 +11,21 @@ import java.nio.file.Paths;
 
 public class Memory{
 
-    private int data[] = new int[65536];
-    private Wire w_address;
-    private Wire w_writeData;
-    private Wire wc_memWrite;
-    private Wire w_readData;
-    private Wire wc_memRead;
+    private final int[] data = new int[65536];
 
-    public Memory(Wire w_address, Wire w_writeData, Wire wc_memWrite,Wire wc_memRead, Wire w_readData){
-        this.w_address = w_address;
-        this.w_writeData = w_writeData;
-        this.wc_memWrite = wc_memWrite;
-        this.wc_memRead = wc_memRead;
-        this.w_readData = w_readData;
-        execute();
+    public Memory(String filename){
+        importData(filename);
+        for(int i = 0; i < 5; i++) {
+            System.out.println(data[i]);
+        }
     }
 
     //Read file
-    public void importData(String filename){
+    private void importData(String filename){
         Path file = Paths.get(filename);
         Charset charset = StandardCharsets.UTF_8;
         try (BufferedReader reader = Files.newBufferedReader(file, charset)){
-            String line = null;
+            String line;
             int count = 0;
             while ((line = reader.readLine()) != null){
                 int result = read(line);
@@ -60,17 +51,5 @@ public class Memory{
 
     public void setData(int address, int data) {
         this.data[address] = data;
-    }
-
-    public void execute() {
-        int memAddress = w_address.getData();
-
-        if(wc_memWrite.getData() == 0b1){
-            data[memAddress] = w_writeData.getData();
-        }
-
-        if(wc_memRead.getData() == 0b1){
-            w_readData.setData(data[memAddress]);
-        }
     }
 }
