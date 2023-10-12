@@ -1,0 +1,12 @@
+       lw 0 1 zero     # Load the input number from memory into R1
+       lw 0 2 one      # Load a constant 1 into R2
+       lw 0 3 neg1     # Load a constant -1 into R3
+start  beq 1 0 stop
+       nand 1 1 1  # Flip all the bits (0s to 1s and 1s to 0s)
+       add 1 1 2   # Add 1
+       add 1 1 3
+       jalr 0 start
+stop   halt
+one .fill 1
+neg1 .fill -1
+zero .fill 0

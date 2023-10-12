@@ -157,7 +157,9 @@ public class ReadInstruction {
                 + String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0')
                 + String.format("%16s", Integer.toBinaryString(intValueField2)).replace(' ', '0');
 
-        printInstructionValue(RTypeValue);
+//        printInstructionValue(RTypeValue);
+        printValueToFile(RTypeValue, "output.txt", instructionSet);
+
     }
 
     public void ITypeInstruction(Map<String, String> instructionSet) {
@@ -193,7 +195,10 @@ public class ReadInstruction {
                 + String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0')
                 + binaryField2;
 
-        printInstructionValue(ITypeValue);
+//        printInstructionValue(ITypeValue);
+        printValueToFile(ITypeValue, "output.txt", instructionSet);
+
+
     }
 
 
@@ -212,7 +217,8 @@ public class ReadInstruction {
         if ("jalr".equals(value)) {
             String opcodeJalr = "101";
             String JTypeJalrValue = opcodeJalr + binaryField0 + binaryField1 + binaryField2;
-            printInstructionValue(JTypeJalrValue);
+            //printInstructionValue(JTypeJalrValue);
+            printValueToFile(JTypeJalrValue, "output.txt", instructionSet);
         }
     }
 
@@ -223,25 +229,39 @@ public class ReadInstruction {
         else if ("noop".equals(value)) opcode = "111";
         String binaryField0 = "0".repeat(22);
         String OTypeValue = opcode + binaryField0;
-        printInstructionValue(OTypeValue);
+        printValueToFile(OTypeValue, "output.txt", instructionSet);
     }
 
     public void getFill(Map<String, String> instructionSet) {
         String field0 = instructionSet.get("field0");
         int numericValue = isInteger(field0) ? Integer.parseInt(field0) : getAddressForLabel(field0);
-        printValueToFile(numericValue, "output.txt");
+        printValueToFile(String.valueOf(numericValue), "output.txt",instructionSet);
+    }
+    public static boolean isBinary(String input) {
+        try {
+            Integer.parseInt(input, 2);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
-    private void printInstructionValue(String binaryValue) {
-        int decimalValue = Integer.parseInt(binaryValue, 2);
-        printValueToFile(decimalValue, "output.txt");
-    }
 
-    private void printValueToFile(int numericValue, String filePath) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String textToWrite = String.valueOf(numericValue);
-            writer.write(textToWrite);
-            writer.newLine();
+
+    private void printValueToFile(String numericValue, String filePath,Map<String, String> instructionSet) {
+        boolean append;
+        if (Objects.equals(instructionSet.get("Address"),"0")) {
+            append = false;
+        } else append = true;
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath,append))) {
+            int decimalValue;
+            if (isBinary(numericValue)){
+                decimalValue = Integer.parseInt(numericValue, 2);
+            } else {
+                decimalValue = Integer.parseInt(numericValue);
+            }
+            String textToWrite = String.valueOf(decimalValue);
+            writer.write(textToWrite+ "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
