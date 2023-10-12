@@ -23,16 +23,16 @@ public class Wire {
         for(Hardware hardware : h_inputs) hardware.execute();
     }
 
-    public void setData(int data){
+    public void set(int data){
         this.data = data;
         update();
     }
 
-    public int getData(){
+    public int get(){
         return this.data;
     }
 
-    public int getData(int index){
+    public int get(int index){
         return this.data >> index & 0b1;
     }
 

@@ -15,9 +15,6 @@ public class Memory{
 
     public Memory(String filename){
         importData(filename);
-        for(int i = 0; i < 5; i++) {
-            System.out.println(data[i]);
-        }
     }
 
     //Read file

@@ -38,12 +38,12 @@ public class MainALU implements ALU{
 
     @Override
     public void execute() {
-        int aInvert = w_ALUControl.getData(3);
-        int bInvert = w_ALUControl.getData(2);
+        int aInvert = w_ALUControl.get(3);
+        int bInvert = w_ALUControl.get(2);
         int operation = w_ALUControl.getRangeData(0,1);
 
-        int a = w_operand1.getData();
-        int b = w_operand2.getData();
+        int a = w_operand1.get();
+        int b = w_operand2.get();
 
         int result = 0;
 
@@ -56,9 +56,9 @@ public class MainALU implements ALU{
             case 0b10 -> result = add(a, b);
         }
 
-        if(result == 0) w_zero.setData(1);
-        else w_zero.setData(0);
+        if(result == 0) w_zero.set(1);
+        else w_zero.set(0);
 
-        w_result.setData(result);
+        w_result.set(result);
     }
 }

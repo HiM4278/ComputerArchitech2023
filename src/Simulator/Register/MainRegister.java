@@ -3,7 +3,7 @@ package Simulator.Register;
 import Simulator.Wire;
 
 public class MainRegister implements Register{
-    private int data[] = new int[8];
+    private final int[] data = new int[8];
     private final Wire w_registerSelect;
     private final Wire w_writeData;
     private final Wire wc_regWrite;
@@ -31,11 +31,11 @@ public class MainRegister implements Register{
         int regA = w_registerSelect.getRangeData(19,21);
         int regB = w_registerSelect.getRangeData(16,18);
 
-        if(wc_regWrite.getData() == 0b1){
-            data[regB] = w_writeData.getData();
+        if(wc_regWrite.get() == 0b1){
+            data[regB] = w_writeData.get();
         }
 
-        w_readData1.setData(data[regA]);
-        w_readData2.setData(data[regB]);
+        w_readData1.set(data[regA]);
+        w_readData2.set(data[regB]);
     }
 }
