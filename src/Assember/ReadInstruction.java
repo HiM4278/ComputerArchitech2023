@@ -255,10 +255,10 @@ public class ReadInstruction {
         } else append = true;
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath,append))) {
             int decimalValue;
-            if (isBinary(numericValue)){
-                decimalValue = Integer.parseInt(numericValue, 2);
-            } else {
+            if (Objects.equals(instructionSet.get("instruction"),".fill")){
                 decimalValue = Integer.parseInt(numericValue);
+            } else {
+                decimalValue = Integer.parseInt(numericValue, 2);
             }
             String textToWrite = String.valueOf(decimalValue);
             writer.write(textToWrite+ "\n");
