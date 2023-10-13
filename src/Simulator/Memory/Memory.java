@@ -1,5 +1,7 @@
 package Simulator.Memory;
 
+import Simulator.Simulator;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -12,7 +14,7 @@ import java.nio.file.Paths;
 public class Memory{
 
     private final int[] data = new int[65536];
-    private int numMemory = 0;
+    public int numMemory = 0;
 
     public Memory(String filename){
         importData(filename);
@@ -43,11 +45,22 @@ public class Memory{
         }
     }
 
+    public int[] toArrayList(){
+        return data;
+    }
+
     public int getData(int address){
         return data[address];
     }
 
     public void setData(int address, int data) {
         this.data[address] = data;
+    }
+
+    public void prettyPrint(){
+        for(int i = 0; i < numMemory; i++) {
+            System.out.println("memory[" + i + "]=" + data[i]);
+        }
+        System.out.println();
     }
 }

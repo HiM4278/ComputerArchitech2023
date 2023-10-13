@@ -8,22 +8,23 @@ public class MemoryReader implements Hardware {
     private final Memory memory;
     private final Wire w_address;
     private final Wire w_writeData;
-    private final Wire w_readData = new Wire();
+    private final Wire w_readData;
     private final Wire control_MemRead;
     private final Wire control_MemWrite;
 
-    public MemoryReader(Memory memory, Wire w_address, Wire w_writeData, Wire control_MemWrite, Wire control_MemRead){
+    public MemoryReader(Memory memory, Wire w_address, Wire w_writeData, Wire control_MemWrite, Wire control_MemRead, Wire w_readData){
         this.memory = memory;
         this.w_address = w_address;
         this.w_writeData = w_writeData;
         this.control_MemRead = control_MemRead;
         this.control_MemWrite = control_MemWrite;
+        this.w_readData = w_readData;
         execute();
         subWire();
     }
 
-    public MemoryReader(Memory memory, Wire w_address){
-        this(memory, w_address, new Wire(), new Wire(0b0), new Wire(0b1));
+    public MemoryReader(Memory memory, Wire w_address, Wire w_readData){
+        this(memory, w_address, new Wire(), new Wire(0b0), new Wire(0b1), w_readData);
     }
 
     public Wire w_output_data() {
