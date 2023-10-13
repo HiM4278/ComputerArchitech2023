@@ -69,6 +69,7 @@ public class MainControl implements Control{
         if(control==0b001) {
             this.wc_ALUOp.set(0b1100);
             this.wc_RegWrite.set(0b1);
+            this.wc_RegSelect.set(0b1);
         }
         // lw
         if(control==0b010) {
@@ -83,7 +84,6 @@ public class MainControl implements Control{
             this.wc_ALUOp.set(0b0010);
             this.wc_MemWrite.set(0b1);
             this.wc_ALUSrc.set(0b1);
-            this.wc_RegWrite.set(0b1);
         }
         // beq
         if(control==0b100) {
