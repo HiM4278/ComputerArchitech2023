@@ -1,0 +1,40 @@
+        lw      0       1       n       #   input n
+        lw      0       2       r       #   inpur r
+        lw      0       5       pos1    #   ($5) = 1 ; pos = positive
+comb    sw          7           4           stack       #   save return address($7) on stack
+        add         7           5           7           #   increment stack pointer
+        sw          7           1           stack       #   save ($n), the 'n' on stack
+        add         7           5           7           #   increment stack pointer
+        sw          7           2           stack       #   save ($r), the 'r' on stack
+
+        lw          0           6           zero        #   temporary  = 0
+        beq         6           2           base_C      #   check if r == 0 or not? If yes return (1)
+        beq         1           2           base_C      #   check if n == r or not? If yes return (1)
+
+
+        lw          0           6           comAdr      #   temporary = combAdr
+        jalr        6           ?                       #   return
+
+# case: n == r || r == 0 return (1)
+base_C  lw          0           3           pos1        #   return (1)
+        jalr        ?
+
+# else: return comb(n-1, r) + comb(n-1, r-1)
+else    lw          0           6           neg1        #   temporary = -1
+        add         1           6           1           #   n = n - 1
+        lw          0           6           comAdr      #   temporary = combAdr
+        jalr        6           0                       #   return comb(n-1, r)
+        sw
+
+        lw          0           6           neg1        #   temporary = -1
+        add         2           6           2           #   r = r - 1
+        lw          0           6           comAdr      #   temporary = combAdr
+        jalr        6           0                       #   return comb(n-1, r-1)
+
+n           .fill   7
+r           .fill   3
+zero        .fill   0
+neg1        .fill   -1
+pos1        .fill   1
+comAdr      .fill   comb
+stack       .fill   0

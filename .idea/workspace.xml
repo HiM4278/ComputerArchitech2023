@@ -5,15 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="Simulator version 1 : work only add, lw">
+      <change afterPath="$PROJECT_DIR$/Combination" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/comb.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/optimized_multiply.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assembly.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/opt_mul.txt" beforeDir="false" afterPath="$PROJECT_DIR$/opt_mul.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Assember/ReadInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assember/ReadInstruction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulator/ALU/MainALU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/ALU/MainALU.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Simulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
