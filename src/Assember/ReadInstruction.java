@@ -123,6 +123,13 @@ public class ReadInstruction {
         }
     }
 
+    /**
+     * This method aims to process a list of instruction sets and classify them based on their opcode.
+     * input : MappedLines: A list of instruction sets, where each set is represented as
+     * a Map<String, String> containing keys like "instruction," "field0," "field1," etc.
+     * output : The method does not have a direct output. Instead, it delegates the processing
+     * of different instruction types to specific methods
+     */
     public void clarifyInstruction() {
         for (Map<String, String> instructionSet : mappedLines) {
             String opcode = instructionSet.get("instruction").toLowerCase();
@@ -137,12 +144,21 @@ public class ReadInstruction {
         }
     }
 
+    /**
+     * This method processes R-type instructions, converts their fields to binary,
+     * and outputs the resulting binary instruction to a file.
+     * @param instructionSet Map<String, String> containing keys
+     * output : The method does not return a value. Instead, it writes the binary R-type
+     * instruction to an output file ("output.txt") using the printValueToFile method.
+     */
     public void RTypeInstruction(Map<String, String> instructionSet) {
+        // Retrieve instruction fields from the instructionSet map.
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
         String field1 = instructionSet.get("field1");
         String field2 = instructionSet.get("field2");
 
+        // Parse instruction fields to integer values.
         int intValueField0 = Integer.parseInt(field0);
         int intValueField1 = Integer.parseInt(field1);
         int intValueField2 = Integer.parseInt(field2);
@@ -153,30 +169,43 @@ public class ReadInstruction {
             default -> "";
         };
 
+        // Convert integer fields to binary strings and format them accordingly.
+        // Combine the opcode and binary fields to form the R-type instruction in binary format.
         String RTypeValue = opcode + String.format("%3s", Integer.toBinaryString(intValueField0)).replace(' ', '0')
                 + String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0')
                 + String.format("%16s", Integer.toBinaryString(intValueField2)).replace(' ', '0');
 
-//        printInstructionValue(RTypeValue);
         printValueToFile(RTypeValue, "output.txt", instructionSet);
-
     }
 
+    /**
+     * This method processes I-type instructions, converts their fields to binary,
+     * and outputs the resulting binary instruction to a file.
+     * @param instructionSet Map<String, String> containing keys
+     * output : The method does not return a value. Instead, it writes the binary I-type
+     * instruction to an output file ("output.txt") using the printValueToFile method.
+     */
     public void ITypeInstruction(Map<String, String> instructionSet) {
+        // Retrieve instruction fields from the instructionSet map.
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
         String field1 = instructionSet.get("field1");
         String field2 = instructionSet.get("field2");
 
+        // Parse instruction fields to integer values.
         int intValueField0 = Integer.parseInt(field0);
         int intValueField1 = Integer.parseInt(field1);
         int intValueField2;
         String binaryField2;
+
+        // Determine the binary representation of field2 based on its type (integer or label).
         if (isInteger(field2)) {
             intValueField2 = Integer.parseInt(field2);
+            // If field2 is negative, convert it to a 16-bit two's complement binary number.
             binaryField2 = (intValueField2 < 0) ? convertNegativeNumberToBinary(intValueField2, 16) :
                     String.format("%16s", Integer.toBinaryString(intValueField2)).replace(' ', '0');
         } else {
+            // If field2 is a label, get its address and calculate the offset if it's a "beq" instruction.
             intValueField2 = getAddressForLabel(field2);
             if (Objects.equals(value, "beq")) {
                 intValueField2 = (intValueField2 - 1) - Integer.parseInt(instructionSet.get("Address"));
@@ -191,65 +220,92 @@ public class ReadInstruction {
             default -> "";
         };
 
+        // Convert integer fields to binary strings and format them accordingly.
+        // Combine the opcode and binary fields to form the I-type instruction in binary format.
         String ITypeValue = opcode + String.format("%3s", Integer.toBinaryString(intValueField0)).replace(' ', '0')
                 + String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0')
                 + binaryField2;
-
-//        printInstructionValue(ITypeValue);
         printValueToFile(ITypeValue, "output.txt", instructionSet);
-
-
     }
 
-
+    /**
+     * This method processes J-type instructions, specifically "jalr," and converts
+     * their fields to binary. It then outputs the resulting binary instruction to a file.
+     * @param instructionSet Map<String, String> containing keys
+     * output : The method does not return a value. Instead, it writes the binary J-type
+     * instruction to an output file ("output.txt") using the printValueToFile method
+     */
     public void JTypeInstruction(Map<String, String> instructionSet) {
+        // Retrieve instruction fields from the instructionSet map.
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
         String field1 = instructionSet.get("field1");
 
+        // Parse instruction fields to integer values.
         int intValueField0 = Integer.parseInt(field0);
         int intValueField1 = Integer.parseInt(field1);
 
+        // Convert integer fields to formatted 3-bit binary strings.
         String binaryField0 = String.format("%3s", Integer.toBinaryString(intValueField0)).replace(' ', '0');
         String binaryField1 = String.format("%3s", Integer.toBinaryString(intValueField1)).replace(' ', '0');
+        // Create a 16-bit binary representation of field1, used for "jalr" instructions.
         String binaryField2 = String.format("%16s", Integer.toBinaryString(intValueField1)).replace(' ', '0');
 
         if ("jalr".equals(value)) {
             String opcodeJalr = "101";
+            // Combine opcode and binary fields to form the J-type instruction in binary format.
             String JTypeJalrValue = opcodeJalr + binaryField0 + binaryField1 + binaryField2;
-            //printInstructionValue(JTypeJalrValue);
             printValueToFile(JTypeJalrValue, "output.txt", instructionSet);
         }
     }
 
+    /**
+     * This method processes O-type instructions ("halt" and "noop") and converts them to
+     * binary format. It then outputs the resulting binary instruction to a file.
+     * @param instructionSet Map<String, String> containing keys
+     * outputs: The method does not return a value. Instead, it writes the binary O-type instruction
+     * to an output file ("output.txt") using the printValueToFile method.
+     */
     public void OTypeInstruction(Map<String, String> instructionSet) {
+        // Retrieve the instruction from the instructionSet map.
         String value = instructionSet.get("instruction");
         String opcode = "";
         if ("halt".equals(value)) opcode = "110";
         else if ("noop".equals(value)) opcode = "111";
+        // Create a 22-bit binary representation of zeros for O-type instructions.
         String binaryField0 = "0".repeat(22);
+        // Combine opcode and binary fields to form the O-type instruction in binary format.
         String OTypeValue = opcode + binaryField0;
         printValueToFile(OTypeValue, "output.txt", instructionSet);
     }
 
+    /**
+     *This method processes ".fill" instructions and converts the specified value (either an integer or a label)
+     * to binary format. It then outputs the resulting binary instruction to a file.
+     * @param instructionSet Map<String, String> containing keys
+     * outputs: The method does not return a value. Instead, it writes the binary ".fill"
+     * instruction to an output file ("output.txt") using the printValueToFile method.
+     */
     public void getFill(Map<String, String> instructionSet) {
+        // Retrieve the value from the instructionSet map.
         String field0 = instructionSet.get("field0");
+        // Parse the value to an integer.
         int numericValue = isInteger(field0) ? Integer.parseInt(field0) : getAddressForLabel(field0);
         printValueToFile(String.valueOf(numericValue), "output.txt",instructionSet);
     }
-    public static boolean isBinary(String input) {
-        try {
-            Integer.parseInt(input, 2);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 
-
-
+    /**
+     *This method writes a numeric value to a file specified by filePath.
+     * If it's not the first instruction, the value is appended to the file.
+     * @param numericValue Binary numbers come from Typeinstruction from the Instruction.
+     * @param filePath File to store machine code values.
+     * @param instructionSet Map<String, String> containing keys
+     * output : The method does not return a value. Instead, it writes the numeric
+     * value followed by a newline character to the specified output file.
+     */
     private void printValueToFile(String numericValue, String filePath,Map<String, String> instructionSet) {
         boolean append;
+        // Determine whether to append to the file or create a new file.
         if (Objects.equals(instructionSet.get("Address"),"0")) {
             append = false;
         } else append = true;
@@ -260,6 +316,7 @@ public class ReadInstruction {
             } else {
                 decimalValue = Integer.parseInt(numericValue, 2);
             }
+            // Write the decimal value followed by a newline to the file.
             String textToWrite = String.valueOf(decimalValue);
             writer.write(textToWrite+ "\n");
         } catch (IOException e) {
@@ -267,6 +324,13 @@ public class ReadInstruction {
         }
     }
 
+    /**
+     *This method converts a negative decimal number to its binary representation
+     * using two's complement representation.
+     * @param n Values in fields
+     * @param bits Number of bits in the field
+     * @return The binary representation of the negative decimal number n as a string.
+     */
     public static String convertNegativeNumberToBinary(int n, int bits) {
         int maxPositiveValue = (1 << (bits - 1)) - 1;
         if (n > maxPositiveValue || n < -maxPositiveValue - 1) {
@@ -282,6 +346,12 @@ public class ReadInstruction {
         return binary;
     }
 
+    /**
+     *This method checks if a given string represents a valid integer within the range of -32768 to 32767.
+     * @param str
+     * @return true if the input string represents a valid integer within
+     * the specified range (-32768 to 32767), and false otherwise.
+     */
     private boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -295,6 +365,13 @@ public class ReadInstruction {
         }
     }
 
+    /**
+     * This method retrieves the address associated with a given label and
+     * ensures that the address is within the valid range of -32768 to 32767.
+     * @param label That is mapped from an instruction that is a character
+     * @return the address corresponding to the given label if it is defined and
+     *within the valid range. Otherwise, it prints an error message and exits the program.
+     */
     public Integer getAddressForLabel(String label) {
         Integer address = labelToAddressMap.get(label);
         if (address == null) {
@@ -309,7 +386,7 @@ public class ReadInstruction {
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("assembly.txt");
+        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/ComputerArchitech2023/src/Assember/Assembler.txt");
 //        Read.printMappedLines();
 //        System.out.println(Read.getAddressForLabel("start"));
         Read.clarifyInstruction();
