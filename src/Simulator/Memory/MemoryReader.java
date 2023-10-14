@@ -12,7 +12,23 @@ public class MemoryReader implements Hardware {
     private final Wire control_MemRead;
     private final Wire control_MemWrite;
 
-    public MemoryReader(Memory memory, Wire w_address, Wire w_writeData, Wire control_MemWrite, Wire control_MemRead, Wire w_readData){
+    /**
+     * Constructor of MemoryReader
+     * @param memory
+     * @param w_address [input] Address of memory
+     * @param w_writeData [input] Write data from Registers
+     * @param control_MemWrite [control] control memory that write data on memory
+     * @param control_MemRead [control] control memory that read data on memory
+     * @param w_readData [output] Read data in address
+     */
+    public MemoryReader(
+            Memory memory,
+            Wire w_address,
+            Wire w_writeData,
+            Wire control_MemWrite,
+            Wire control_MemRead,
+            Wire w_readData
+    ){
         this.memory = memory;
         this.w_address = w_address;
         this.w_writeData = w_writeData;
@@ -20,9 +36,14 @@ public class MemoryReader implements Hardware {
         this.control_MemWrite = control_MemWrite;
         this.w_readData = w_readData;
         execute();
-        subWire();
     }
 
+    /**
+     *Constructor
+     * @param memory
+     * @param w_address wire address (input)
+     * @param w_readData wire read data (output)
+     */
     public MemoryReader(Memory memory, Wire w_address, Wire w_readData){
         this(memory, w_address, new Wire(), new Wire(0b0), new Wire(0b1), w_readData);
     }
@@ -41,12 +62,5 @@ public class MemoryReader implements Hardware {
         if(control_MemRead.get() == 0b1) {
             w_readData.set(memory.getData(address));
         }
-    }
-
-    private void subWire(){
-        this.w_address.subscribe(this);
-        this.w_writeData.subscribe(this);
-        this.control_MemRead.subscribe(this);
-        this.control_MemWrite.subscribe(this);
     }
 }

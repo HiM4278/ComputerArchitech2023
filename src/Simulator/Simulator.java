@@ -23,7 +23,6 @@ public class Simulator {
     private int instrCount;
 
     // Wires
-    private final Wire w_clock = new Wire();
     private final Wire w_input_pc = new Wire();
     private final Wire w_output_pc = new Wire();
     private final Wire w_instruction = new Wire();
@@ -65,7 +64,6 @@ public class Simulator {
     private final Memory memory = new Memory("input.txt");
 
     private final PC PC = new PC(
-            w_clock,
             w_input_pc,
             control_end,
             w_output_pc
@@ -98,7 +96,6 @@ public class Simulator {
     );
 
     private final MainRegister register = new MainRegister(
-            w_clock,
             w_registerA,
             w_registerB,
             w_mux_destReg,

@@ -4,14 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="1. Adding assembly code for multiplication using nand operation, and testing on assembler part. (Raiwin)&#10;2. Adding condition for checking binary value when writing a file output (Pasikorn)&#10;3. Revising function on writing the output's file (Pasikorn &amp; Raiwin)">
-      <change afterPath="$PROJECT_DIR$/Combination" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/optimized_multiply.txt" afterDir="false" />
+    <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="Simulator version 1 : work only add, lw">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assembly.txt" beforeDir="false" afterPath="$PROJECT_DIR$/assembly.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/opt_mul.txt" beforeDir="false" afterPath="$PROJECT_DIR$/opt_mul.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Assember/ReadInstruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Assember/ReadInstruction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/ALU/MainALU.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/ALU/MainALU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Control/MainControl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Simulator/Simulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulator/Simulator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +53,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -95,7 +98,6 @@
       <workItem from="1695829906358" duration="28000" />
       <workItem from="1696173813483" duration="674000" />
       <workItem from="1696610098380" duration="10727000" />
-      <workItem from="1697111351671" duration="12418000" />
     </task>
     <task id="LOCAL-00001" summary="Extend Interface Hardware.">
       <created>1695656010827</created>
@@ -153,13 +155,12 @@
       <option name="project" value="LOCAL" />
       <updated>1697090630094</updated>
     </task>
-    <task id="LOCAL-00009" summary="1. Adding assembly code for multiplication using nand operation, and testing on assembler part. (Raiwin)&#10;2. Adding condition for checking binary value when writing a file output (Pasikorn)&#10;3. Revising function on writing the output's file (Pasikorn &amp; Raiwin)">
-      <option name="closed" value="true" />
-      <created>1697132961202</created>
+    <task id="LOCAL-00009" summary="Simulator version 1 : work only add, lw">
+      <created>1697103460627</created>
       <option name="number" value="00009" />
       <option name="presentableId" value="LOCAL-00009" />
       <option name="project" value="LOCAL" />
-      <updated>1697132961202</updated>
+      <updated>1697103460627</updated>
     </task>
     <option name="localTasksCounter" value="10" />
     <servers />
@@ -186,7 +187,11 @@
     <MESSAGE value="Class Multiplexer completed" />
     <MESSAGE value="Reconstruction Memory architecture" />
     <MESSAGE value="Rename function in Wire" />
-    <MESSAGE value="1. Adding assembly code for multiplication using nand operation, and testing on assembler part. (Raiwin)&#10;2. Adding condition for checking binary value when writing a file output (Pasikorn)&#10;3. Revising function on writing the output's file (Pasikorn &amp; Raiwin)" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. Adding assembly code for multiplication using nand operation, and testing on assembler part. (Raiwin)&#10;2. Adding condition for checking binary value when writing a file output (Pasikorn)&#10;3. Revising function on writing the output's file (Pasikorn &amp; Raiwin)" />
+    <MESSAGE value="Simulator version 1 : work only add, lw" />
+    <option name="LAST_COMMIT_MESSAGE" value="Simulator version 1 : work only add, lw" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
