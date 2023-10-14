@@ -309,7 +309,7 @@ public class ReadInstruction {
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("opt_mul.txt");
+        ReadInstruction Read = new ReadInstruction("assembly.txt");
 //        Read.printMappedLines();
 //        System.out.println(Read.getAddressForLabel("start"));
         Read.clarifyInstruction();

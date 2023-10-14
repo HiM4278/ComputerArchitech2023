@@ -24,8 +24,8 @@ public class MainALU implements ALU{
         this.wc_ALUControl.subscribe(this);
     }
 
-    private int and(int a, int b){
-        return a & b;
+    private int nand(int a, int b){
+        return ~(a & b);
     }
 
     private int or(int a, int b){
@@ -51,7 +51,7 @@ public class MainALU implements ALU{
         if(bInvert == 0b1) b = ~b + 1; // b = -b
 
         switch (operation) {
-            case 0b00 -> result = and(a, b);
+            case 0b00 -> result = nand(a, b);
             case 0b01 -> result = or(a, b);
             case 0b10 -> result = add(a, b);
         }

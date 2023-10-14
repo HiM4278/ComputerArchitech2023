@@ -192,7 +192,7 @@ public class Simulator {
     public void run(){
         instrCount = 0;
         memory.prettyPrint();
-        for(int i = 1; i <= 300; i++){
+        for(int i = 1; i <= 500; i++){
             updateVariable();
             printState();
             instrMemory.execute();
@@ -203,8 +203,10 @@ public class Simulator {
             control.execute();
             mux_destReg.execute();
             register.execute();
+            System.out.println(w_dataA.get());
             mux_srcToALU.execute();
             alu.execute();
+            System.out.println(w_immediate.get());
             and_branch_zero.execute();
             or_beq_jump.execute();
             add_pc_1.execute();
@@ -212,14 +214,12 @@ public class Simulator {
             mux_jump_or_branch.execute();
             mux_newPC.execute();
             dataMemory.execute();
-            printBIN(w_instruction.get());
-            System.out.println(control_memToReg.get());
+            System.out.println(control_jump.get());
             mux_dataToReg.execute();
-            System.out.println(w_alu_result.get());
             mux_pc_or_data.execute();
             register.write();
             instrCount++;
-            System.out.println(w_mux_dataToReg.get());
+            System.out.println(w_input_pc.get());
             PC.execute();
             if(PC.isEnd()) break;
         }
