@@ -55,6 +55,11 @@ public class ReadInstruction {
                 if (isReservedWords(firstPart)) {
                     lineMap.put("instruction", firstPart);
                 }
+                if(firstPart.length() > 6 ) {
+                    System.err.println("You have use exceed the limit of label field symbols (limit up to 6 symbols)");
+                    System.exit(1);
+                }
+
                 if (encounteredLabels.contains(firstPart)) {
                     System.err.println("Duplicate label found: " + firstPart + " by line " + (num + 1));
                     System.exit(1);
@@ -386,7 +391,7 @@ public class ReadInstruction {
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("/Users/natxpss/Documents/ComputerArchitech2023/src/Assember/Assembler.txt");
+        ReadInstruction Read = new ReadInstruction("opt_mul.txt");
 //        Read.printMappedLines();
 //        System.out.println(Read.getAddressForLabel("start"));
         Read.clarifyInstruction();

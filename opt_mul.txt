@@ -1,7 +1,7 @@
         lw      0       1       mcand
         lw      0       2       mplier
 start   lw      0       4       step
-        lw      0       6       sixteen
+        lw      0       6       sixten
         beq     4       6       13
         lw      0       6       one
         add     6       4       4
@@ -17,10 +17,10 @@ start   lw      0       4       step
         lw      0       6       stAddr
         jalr    6       0
 end     halt
-mcand   .fill   5
-mplier  .fill   4
+mcand   .fill   32766
+mplier  .fill   10383
 window  .fill   1
 step    .fill   0
-sixteen .fill   16
+sixten  .fill   16
 one     .fill   1
 stAddr  .fill   start
