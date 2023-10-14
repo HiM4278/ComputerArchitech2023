@@ -50,7 +50,7 @@ public class MainControl implements Control{
         this.wc_Branch.set(0b0);
         this.wc_MemRead.set(0b0);
         this.wc_MemToReg.set(0b0);
-        this.wc_ALUOp.set(0b0);
+        this.wc_ALUOp.set(0b0000);
         this.wc_MemWrite.set(0b0);
         this.wc_ALUSrc.set(0b0);
         this.wc_RegWrite.set(0b0);
@@ -67,8 +67,9 @@ public class MainControl implements Control{
         }
         // nand
         if(control==0b001) {
-            this.wc_ALUOp.set(0b1100);
+            this.wc_ALUOp.set(0b0000);
             this.wc_RegWrite.set(0b1);
+            this.wc_RegSelect.set(0b1);
         }
         // lw
         if(control==0b010) {
@@ -83,7 +84,6 @@ public class MainControl implements Control{
             this.wc_ALUOp.set(0b0010);
             this.wc_MemWrite.set(0b1);
             this.wc_ALUSrc.set(0b1);
-            this.wc_RegWrite.set(0b1);
         }
         // beq
         if(control==0b100) {

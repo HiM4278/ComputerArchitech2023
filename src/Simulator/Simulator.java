@@ -192,7 +192,7 @@ public class Simulator {
     public void run(){
         instrCount = 0;
         memory.prettyPrint();
-        for(int i = 1; i <= 100; i++){
+        for(int i = 1; i <= 500; i++){
             updateVariable();
             printState();
             instrMemory.execute();
