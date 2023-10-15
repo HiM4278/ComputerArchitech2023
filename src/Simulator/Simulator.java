@@ -1,7 +1,7 @@
 package Simulator;
 import Simulator.ALU.ADD;
 import Simulator.ALU.ALU;
-import Simulator.Control.MainControl;
+import Simulator.Control.Control;
 import Simulator.Logic.AND;
 import Simulator.Logic.MUX;
 import Simulator.Logic.OR;
@@ -73,10 +73,10 @@ public class Simulator {
             w_instruction
     );
 
-    private final MainControl control = new MainControl(
+    private final Control control = new Control(
             w_instruction,
-            control_branch,
             control_jump,
+            control_branch,
             control_memRead,
             control_memToReg,
             control_aluOp,
@@ -187,7 +187,7 @@ public class Simulator {
     public void run(){
         int instrCount = 0;
         memory.prettyPrint();
-        for(int i = 1; i <= 500; i++){
+        for(int i = 1; i <= 5000; i++){
 
             updateVariable();
             printState();
