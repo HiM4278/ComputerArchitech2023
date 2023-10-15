@@ -194,6 +194,10 @@ public class Simulator {
         numMemory = memory.numMemory;
     }
 
+    /**
+     * Runs the simulator with the provided machine code file.
+     * @param filename The name of the machine code file to be loaded.
+     */
     public void run(String filename){
         memory.importData(filename);
         int instrCount = 0;
