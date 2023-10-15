@@ -6,19 +6,29 @@ comb    lw          0           6           pos1        #   temporary = 1  ; pos
         sw          5           1           stack       #   save ($n), the 'n' on stack
         add         5           6           5           #   increment stack pointer
         sw          5           2           stack       #   save ($r), the 'r' on stack
+
         beq         2           0           return      #   check if r == 0 or not? If yes return (1)
         beq         1           2           return      #   check if n == r or not? If yes return (1)
+
+        # comb(n-1, r) + comb(n-1, r-1)
+--------------------------------------------------------------------
+
         lw          0           6           neg1        #   temporary = -1
         add         1           6           1           #   n = n - 1
         jalr        6           7
         add         0           3           6
         add         2           6           2           #   r = r - 1
+
         lw          0           6           comAdr      #   comb address
         jalr        6           0                       #   recursive call
         add         3           6           3
         lw          0           6           popAdd      #   load pop address
         jalr        6           7                       #   jump to pop label
+
+        #return 1
+---------------------------------------------------------------------
 return  lw          0           3           pos1        #   $3 = 1
+
 pop     lw          0           6           neg1        #   temporary = -1
         lw          5           2           stack       #   load ($r), the 'n' on stack
         add         5           6           5           #   decrement stack pointer
@@ -26,6 +36,7 @@ pop     lw          0           6           neg1        #   temporary = -1
         add         5           6           5           #   decrement stack pointer
         lw          5           4           stack       #   load return address($7) on stack
         jalr        7           0                       #   return comb(n-1, r) + comb(n-1, r-1) OR return 1
+
 popAdd      .fill   pop
 n           .fill   7
 r           .fill   3

@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc070b54-a98a-4f21-96d8-ba40b24563dc" name="Changes" comment="Simulator version 1 : work only add, lw">
-      <change afterPath="$PROJECT_DIR$/Combination" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/comb.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/optimized_multiply.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/comb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Combination" beforeDir="false" afterPath="$PROJECT_DIR$/Combination" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +92,7 @@
       <workItem from="1695829906358" duration="28000" />
       <workItem from="1696173813483" duration="674000" />
       <workItem from="1696610098380" duration="10727000" />
+      <workItem from="1697337218848" duration="6864000" />
     </task>
     <task id="LOCAL-00001" summary="Extend Interface Hardware.">
       <created>1695656010827</created>
