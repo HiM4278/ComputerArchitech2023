@@ -28,16 +28,16 @@ public class Control implements Hardware {
     /**
      * Constructs a MainControl unit with the specified input and control wires.
      * @param w_instruction [input] Wire representing the instruction.
-     * @param wc_Jump [output] Wire representing the jump control signal.
-     * @param wc_Branch [output] Wire representing the branch control signal.
-     * @param wc_MemRead [output] Wire representing the memory read control signal.
-     * @param wc_MemToReg [output] Wire representing the memory-to-register control signal.
-     * @param wc_ALUOp [output] Wire representing the ALU operation control signal.
-     * @param wc_MemWrite [output] Wire representing the memory write control signal.
-     * @param wc_ALUSrc [output] Wire representing the ALU source control signal.
-     * @param wc_RegWrite [output] Wire representing the register write control signal.
-     * @param wc_RegSelect [output] Wire representing the register-write select regB or rt control signal.
-     * @param wc_End [output] Wire representing the end control signal.
+     * @param wc_Jump       [output] Wire representing the jump control signal.
+     * @param wc_Branch     [output] Wire representing the branch control signal.
+     * @param wc_MemRead    [output] Wire representing the memory read control signal.
+     * @param wc_MemToReg   [output] Wire representing the memory-to-register control signal.
+     * @param wc_ALUOp      [output] Wire representing the ALU operation control signal.
+     * @param wc_MemWrite   [output] Wire representing the memory write control signal.
+     * @param wc_ALUSrc     [output] Wire representing the ALU source control signal.
+     * @param wc_RegWrite   [output] Wire representing the register write control signal.
+     * @param wc_RegSelect  [output] Wire representing the register-write select regB or rt control signal.
+     * @param wc_End        [output] Wire representing the end control signal.
      */
     public Control(
             Wire w_instruction,

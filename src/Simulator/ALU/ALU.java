@@ -11,11 +11,11 @@ public class ALU implements Hardware {
 
     /**
      * Constructs an ALU (Arithmetic Logic Unit).
-     * @param w_operand1 [input] Operand1 data
-     * @param w_operand2 [input] Operand2 data
+     * @param w_operand1    [input] Operand1 data
+     * @param w_operand2    [input] Operand2 data
      * @param wc_ALUControl [control] Determines the operation to perform on operand1 and operand2.
-     * @param w_result [output] Result of ALU operation on operand1 and operand2.
-     * @param w_zero [output] 1 if operand1 == operand2 and ALUControl == '0110' (subtraction).
+     * @param w_result      [output] Result of ALU operation on operand1 and operand2.
+     * @param w_zero        [output] 1 if operand1 == operand2 and ALUControl == '0110' (subtraction).
      */
     public ALU(
             Wire w_operand1,

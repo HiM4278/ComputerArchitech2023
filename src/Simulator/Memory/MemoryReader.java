@@ -3,6 +3,9 @@ package Simulator.Memory;
 import Simulator.Hardware;
 import Simulator.Wire;
 
+/**
+ * The "MemoryReader" class represents a component that reads and writes data to a memory unit.
+ */
 public class MemoryReader implements Hardware {
 
     private final Memory memory;
@@ -13,13 +16,14 @@ public class MemoryReader implements Hardware {
     private final Wire control_MemWrite;
 
     /**
-     * Constructor of Memory Reader
-     * @param memory
-     * @param w_address [input] Address of memory
-     * @param w_writeData [input] Write data from Registers
-     * @param control_MemWrite [control] control memory that write data on memory
-     * @param control_MemRead [control] control memory that read data on memory
-     * @param w_readData [output] Read data in address
+     * Constructs a Memory Reader component for reading and writing data to memory.
+     *
+     * @param memory           The memory unit to read from and write to.
+     * @param w_address        [input] Wire representing the memory address.
+     * @param w_writeData      [input] Wire representing data to write to memory.
+     * @param control_MemWrite [control] Wire for controlling memory writes.
+     * @param control_MemRead  [control] Wire for controlling memory reads.
+     * @param w_readData       [output] Wire for reading data from memory.
      */
     public MemoryReader(
             Memory memory,
@@ -39,19 +43,18 @@ public class MemoryReader implements Hardware {
     }
 
     /**
-     *Constructor
-     * @param memory
-     * @param w_address wire address (input)
-     * @param w_readData wire read data (output)
+     * Constructs a Memory Reader component for reading data from memory.
+     * @param memory     The memory unit to read from.
+     * @param w_address  [input] Wire representing the memory address.
+     * @param w_readData [output] Wire for reading data from memory.
      */
     public MemoryReader(Memory memory, Wire w_address, Wire w_readData){
         this(memory, w_address, new Wire(), new Wire(0b0), new Wire(0b1), w_readData);
     }
 
-    public Wire w_output_data() {
-        return w_readData;
-    }
-
+    /**
+     * Execute the read and write operations based on control signals and input data.
+     */
     public void execute() {
         int address = w_address.get();
         int writeData = w_writeData.get();

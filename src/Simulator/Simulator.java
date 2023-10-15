@@ -7,8 +7,14 @@ import Simulator.Logic.MUX;
 import Simulator.Logic.OR;
 import Simulator.Memory.Memory;
 import Simulator.Memory.MemoryReader;
-import Simulator.Register.MainRegister;
+import Simulator.Register.Register;
 import Simulator.Register.PC;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import static java.lang.System.exit;
 
 public class Simulator {
     private final int NUM_MEMORY = 65536;
@@ -37,8 +43,6 @@ public class Simulator {
     private final Wire w_beq_or_jump = new Wire();
     private final Wire w_mux_pc_or_data = new Wire();
     private final Wire w_mux_jump_or_branch = new Wire();
-
-    // P Wires
     private final Wire w_registerA = new Wire(w_instruction, 19, 21);
     private final Wire w_registerB = new Wire(w_instruction, 16, 18);
     private final Wire w_writeReg = new Wire(w_instruction, 0, 2);
@@ -58,8 +62,11 @@ public class Simulator {
     private final Wire control_end = new Wire();
     private final Wire control_beq = new Wire();
 
-    // Memory
-    private final Memory memory = new Memory("input.txt");
+    //
+    // End initial all Hardware in computer
+    //
+
+    private final Memory memory = new Memory();
 
     private final PC PC = new PC(
             w_input_pc,
@@ -93,7 +100,7 @@ public class Simulator {
             w_mux_destReg
     );
 
-    private final MainRegister register = new MainRegister(
+    private final Register register = new Register(
             w_registerA,
             w_registerB,
             w_mux_destReg,
@@ -155,6 +162,10 @@ public class Simulator {
             w_mux_pc_or_data
     );
 
+    //
+    // End initial all Hardware in computer
+    //
+
     public static void printBIN(int n){
         System.out.print(n);
         System.out.println(" : 0b" + String.format("%32s", Integer.toBinaryString(n)).replaceAll(" ", "0"));
@@ -183,11 +194,16 @@ public class Simulator {
         numMemory = memory.numMemory;
     }
 
-
-    public void run(){
+    public void run(String filename){
+        memory.importData(filename);
         int instrCount = 0;
+        int maxInstr = 5000;
+        if(memory.numMemory > MAX_LINE_LENGTH){
+            System.err.println("#line exceed MAX_LINE_LENGTH");
+            exit(1);
+        }
         memory.prettyPrint();
-        for(int i = 1; i <= 5000; i++){
+        for(int i = 1; i <= maxInstr; i++){
 
             updateVariable();
             printState();
@@ -220,7 +236,7 @@ public class Simulator {
 
             PC.execute();
             instrCount++;
-            if(PC.isEnd()) {
+            if(PC.isEnd()) { // halt
                 System.out.println("machine halted");
                 System.out.println("total of " + instrCount + " instructions executed");
                 System.out.println("final state of machine:");
@@ -228,10 +244,47 @@ public class Simulator {
                 printState();
                 break;
             }
+            // Check infinite loop
             if(pc >= numMemory) {
                 System.err.println("machine might infinite loop");
                 break;
             }
+            if(i == maxInstr) {
+                System.err.println("run more than " + maxInstr + " instruction, machine might infinite loop");
+            }
         }
+    }
+
+    public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("error: usage: java Main <machine-code file>");
+            System.exit(1);
+        }
+
+        String fileName = args[0];
+        BufferedReader reader = null;
+
+        try {
+            reader = new BufferedReader(new FileReader(fileName));
+        } catch (IOException e) {
+            System.err.println("error: can't open file " + fileName);
+            e.printStackTrace();
+            System.exit(1);
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //
+        // Simulator start here
+        //
+
+        Simulator simulator = new Simulator();
+        simulator.run(fileName);
     }
 }

@@ -8,21 +8,28 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
+/**
+ * The "Memory" class represents a memory unit in a simulated computer architecture. It allows for the storage
+ * and retrieval of 32 bits data at specific memory addresses.
+ */
 public class Memory{
 
+    // An array to store memory contents.
     private final int[] mem = new int[65536];
+
+    // The number of memory locations used.
     public int numMemory = 0;
 
-    public Memory(String filename){
-        importData(filename);
+    private void resetMem(){
+        for(int i:mem) {i = 0;}
     }
 
     /**
-     * Import file
-     * @param filename
+     * Import data from a file to initialize memory contents.
+     * @param filename The name of the file containing memory data.
      */
-    private void importData(String filename){
+    public void importData(String filename){
+        this.resetMem();
         Path file = Paths.get(filename);
         Charset charset = StandardCharsets.UTF_8;
         try (BufferedReader reader = Files.newBufferedReader(file, charset)){
@@ -39,9 +46,9 @@ public class Memory{
     }
 
     /**
-     * Read data and parse string to int
-     * @param exp each line of a file
-     * @return int
+     * Read data from a string and parse it as an integer.
+     * @param exp Each line from a file.
+     * @return The integer representation of the data.
      */
     private int read(String exp) {
         if(!exp.matches("^-?\\d+$")){
@@ -52,31 +59,34 @@ public class Memory{
     }
 
     /**
-     *
-     * @return memory
+     * Retrieve the memory contents as an array.
+     * @return The array representing memory contents.
      */
     public int[] toArrayList(){
         return mem;
     }
 
     /**
-     * Get data from memory
-     * @param address
-     * @return data
+     * Get data from a specific memory address.
+     * @param address The memory address from which to retrieve data.
+     * @return The data stored at the specified address.
      */
     public int getData(int address){
         return mem[address];
     }
 
     /**
-     * Set data
-     * @param address the address that want to set in memory
-     * @param data the data that need to set in address
+     * Set data at a specific memory address.
+     * @param address The memory address where data will be set.
+     * @param data    The data to store at the specified address.
      */
     public void setData(int address, int data) {
         this.mem[address] = data;
     }
 
+    /**
+     * Print the contents of memory.
+     */
     public void prettyPrint(){
         for(int i = 0; i < numMemory; i++) {
             System.out.println("memory[" + i + "]=" + mem[i]);

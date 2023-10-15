@@ -20,7 +20,7 @@ public class OR implements Hardware {
      *
      * @param w_operand1 [input] Wire representing the first operand.
      * @param w_operand2 [input] Wire representing the second operand.
-     * @param w_result [output] Wire representing the result of the OR operation.
+     * @param w_result   [output] Wire representing the result of the OR operation.
      */
     public OR(Wire w_operand1, Wire w_operand2, Wire w_result) {
         this.w_operand1 = w_operand1;
