@@ -14,13 +14,25 @@ public class ReadInstruction {
     private List<Map<String, String>> mappedLines;
     private Map<String, Integer> labelToAddressMap;
 
-    private ReadInstruction(String filePath) {
+    /**
+     * Constructor of ReadInstruction class.
+     * Initializes an instance of ReadInstruction with the provided file path. Automatically maps lines upon instantiation.
+     * @param filePath The path of the input file from which instructions will be read.
+     */
+    public ReadInstruction(String filePath) {
         this.filePath = filePath;
         this.mappedLines = new ArrayList<>();
         this.labelToAddressMap = new HashMap<>();
-        mapFileIntoParts(); // Automatically map lines upon instantiation
+        mapFileIntoParts();
     }
 
+
+    /**
+     * This method returns an instance of the ReadInstruction class based on the provided file path.
+     * If no instance exists for the given file path, a new instance is created and returned.
+     * @param filePath The path of the input file from which instructions will be read.
+     * @return An instance object of the ReadInstruction class that corresponds to the provided file path.
+     */
     public static ReadInstruction getInstance(String filePath) {
         if (instance == null) {
             instance = new ReadInstruction(filePath);
@@ -28,6 +40,10 @@ public class ReadInstruction {
         return instance;
     }
 
+    /**
+     * Reads the file specified by the file path and maps each line into parts.
+     * Automatically closes the file reader and buffer reader after reading.
+     */
     private void mapFileIntoParts() {
         try {
             FileReader fileReader = new FileReader(filePath);
@@ -45,6 +61,12 @@ public class ReadInstruction {
         }
     }
 
+    /**
+     * Maps each line into different parts based on the structure and content of the line.
+     * Generates a map for each line containing various elements such as address, label, instruction, and fields.
+     * @param line The line to be mapped into parts.
+     * @param num The line number to be used as an address.
+     */
     private void mapLineIntoParts(String line, Integer num) {
         String[] parts = splitLine(line);
         Map<String, String> lineMap = new HashMap<>();
@@ -55,11 +77,6 @@ public class ReadInstruction {
                 if (isReservedWords(firstPart)) {
                     lineMap.put("instruction", firstPart);
                 }
-                if(firstPart.length() > 6 ) {
-                    System.err.println("You have use exceed the limit of label field symbols (limit up to 6 symbols)");
-                    System.exit(1);
-                }
-
                 if (encounteredLabels.contains(firstPart)) {
                     System.err.println("Duplicate label found: " + firstPart + " by line " + (num + 1));
                     System.exit(1);
@@ -101,31 +118,27 @@ public class ReadInstruction {
         mappedLines.add(lineMap);
     }
 
+    /**
+     * Checks if the provided string is one of the reserved words used in the instruction set.
+     * @param s The string to be checked for being a reserved word.
+     * @return True if the string is a reserved word, false otherwise.
+     */
     private boolean isReservedWords(String s) {
         String[] reserve = {"lw", "sw", "add", "nand", "beq", "jalr", "halt", "noop", ".fill"};
         return Arrays.asList(reserve).contains(s);
     }
 
+    /**
+     * Splits the provided line into an array of strings based on whitespace.
+     * @param line The line to be split into parts.
+     * @return An array of strings obtained by splitting the line.
+     */
     private String[] splitLine(String line) {
         String[] parts = line.split("\\s+", 6);
         for (int i = 0; i < parts.length; i++) {
             parts[i] = parts[i].trim();
         }
         return parts;
-    }
-
-    public List<Map<String, String>> getMappedLines() {
-        return mappedLines;
-    }
-
-    public void printMappedLines() {
-        for (Map<String, String> lineMap : mappedLines) {
-            System.out.println("Mapped Line:");
-            for (Map.Entry<String, String> entry : lineMap.entrySet()) {
-                System.out.println(entry.getKey() + ": " + entry.getValue());
-            }
-            System.out.println();
-        }
     }
 
     /**
@@ -156,7 +169,7 @@ public class ReadInstruction {
      * output : The method does not return a value. Instead, it writes the binary R-type
      * instruction to an output file ("output.txt") using the printValueToFile method.
      */
-    public void RTypeInstruction(Map<String, String> instructionSet) {
+    private void RTypeInstruction(Map<String, String> instructionSet) {
         // Retrieve instruction fields from the instructionSet map.
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
@@ -190,7 +203,7 @@ public class ReadInstruction {
      * output : The method does not return a value. Instead, it writes the binary I-type
      * instruction to an output file ("output.txt") using the printValueToFile method.
      */
-    public void ITypeInstruction(Map<String, String> instructionSet) {
+    private void ITypeInstruction(Map<String, String> instructionSet) {
         // Retrieve instruction fields from the instructionSet map.
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
@@ -240,7 +253,7 @@ public class ReadInstruction {
      * output : The method does not return a value. Instead, it writes the binary J-type
      * instruction to an output file ("output.txt") using the printValueToFile method
      */
-    public void JTypeInstruction(Map<String, String> instructionSet) {
+    private void JTypeInstruction(Map<String, String> instructionSet) {
         // Retrieve instruction fields from the instructionSet map.
         String value = instructionSet.get("instruction");
         String field0 = instructionSet.get("field0");
@@ -271,7 +284,7 @@ public class ReadInstruction {
      * outputs: The method does not return a value. Instead, it writes the binary O-type instruction
      * to an output file ("output.txt") using the printValueToFile method.
      */
-    public void OTypeInstruction(Map<String, String> instructionSet) {
+    private void OTypeInstruction(Map<String, String> instructionSet) {
         // Retrieve the instruction from the instructionSet map.
         String value = instructionSet.get("instruction");
         String opcode = "";
@@ -291,7 +304,7 @@ public class ReadInstruction {
      * outputs: The method does not return a value. Instead, it writes the binary ".fill"
      * instruction to an output file ("output.txt") using the printValueToFile method.
      */
-    public void getFill(Map<String, String> instructionSet) {
+    private void getFill(Map<String, String> instructionSet) {
         // Retrieve the value from the instructionSet map.
         String field0 = instructionSet.get("field0");
         // Parse the value to an integer.
@@ -336,7 +349,7 @@ public class ReadInstruction {
      * @param bits Number of bits in the field
      * @return The binary representation of the negative decimal number n as a string.
      */
-    public static String convertNegativeNumberToBinary(int n, int bits) {
+    private static String convertNegativeNumberToBinary(int n, int bits) {
         int maxPositiveValue = (1 << (bits - 1)) - 1;
         if (n > maxPositiveValue || n < -maxPositiveValue - 1) {
             throw new IllegalArgumentException("Input value out of range for " + bits + "-bit two's complement");
@@ -391,9 +404,7 @@ public class ReadInstruction {
     }
 
     public static void main(String[] args) {
-        ReadInstruction Read = new ReadInstruction("opt_mul.txt");
-//        Read.printMappedLines();
-//        System.out.println(Read.getAddressForLabel("start"));
+        ReadInstruction Read = new ReadInstruction("D:\\ComputerArchitech\\ComputerArchitech2023\\src\\assembly.txt");
         Read.clarifyInstruction();
     }
 }

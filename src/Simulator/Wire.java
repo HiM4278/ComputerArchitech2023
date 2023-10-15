@@ -3,7 +3,7 @@ package Simulator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Wire implements Hardware{
+public class Wire{
     private int data;
     private Wire wireRef = null;
     private int lsb_index = 0;
@@ -24,8 +24,6 @@ public class Wire implements Hardware{
         this.lsb_index = lsb_index;
         this.msb_index = msb_index;
         this.need2com = need2com;
-//        subWire();
-        execute();
     }
 
     /**
@@ -85,6 +83,7 @@ public class Wire implements Hardware{
      * @return data
      */
     public int get(){
+        this.calculate();
         return this.data;
     }
 
@@ -94,7 +93,7 @@ public class Wire implements Hardware{
      * @return data
      */
     public int get(int index){
-        return this.data >> index & 0b1;
+        return this.get() >> index & 0b1;
     }
 
     /**
@@ -104,27 +103,18 @@ public class Wire implements Hardware{
      * @return data
      */
     public int getRangeData(int lsb_index, int msb_index){
-        return (this.data >> lsb_index) & (-1 >>> (32 - (msb_index - lsb_index + 1)));
+        return (this.get() >> lsb_index) & (-1 >>> (32 - (msb_index - lsb_index + 1)));
     }
 
     /**
      * Convert 16 bits to 32 bits with sign extend
-     * @param num
-     * @return
+     * @param num 16 bits 2's complement
+     * @return 32 bits 2's complement
      */
     private int signExtend(int num) {
         if (((num & (1<<15)) >> 15) == 0b1) {
             num -= (1<<16);
         }
         return(num);
-    }
-
-//    private void subWire(){
-//        this.wireRef.subscribe(this);
-//    }
-
-    @Override
-    public void execute() {
-        this.calculate();
     }
 }

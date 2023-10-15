@@ -1,14 +1,13 @@
 package Simulator.ALU;
 
 import Simulator.Hardware;
-import Simulator.Simulator;
 import Simulator.Wire;
 
-public class Adder implements Hardware {
+public class ADD implements Hardware {
     private final Wire w_operand1, w_operand2;
     private final Wire w_result;
 
-    public Adder(Wire w_operand1, Wire w_operand2, Wire w_result) {
+    public ADD(Wire w_operand1, Wire w_operand2, Wire w_result) {
         this.w_operand1 = w_operand1;
         this.w_operand2 = w_operand2;
         this.w_result = w_result;

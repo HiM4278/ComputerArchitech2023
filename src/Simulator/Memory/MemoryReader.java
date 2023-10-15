@@ -13,7 +13,7 @@ public class MemoryReader implements Hardware {
     private final Wire control_MemWrite;
 
     /**
-     * Constructor of MemoryReader
+     * Constructor of Memory Reader
      * @param memory
      * @param w_address [input] Address of memory
      * @param w_writeData [input] Write data from Registers

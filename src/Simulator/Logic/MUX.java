@@ -3,12 +3,12 @@ package Simulator.Logic;
 import Simulator.Hardware;
 import Simulator.Wire;
 
-public class Multiplexer implements Hardware {
+public class MUX implements Hardware {
     private final Wire w_select;
     private final Wire[] w_inputs;
     private final Wire w_output;
 
-    public Multiplexer(Wire w_select, Wire[] w_inputs, Wire w_output) {
+    public MUX(Wire w_select, Wire[] w_inputs, Wire w_output) {
         this.w_select = w_select;
         this.w_inputs = w_inputs;
         this.w_output = w_output;

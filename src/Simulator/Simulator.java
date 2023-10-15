@@ -1,10 +1,9 @@
 package Simulator;
+import Simulator.ALU.ADD;
 import Simulator.ALU.ALU;
-import Simulator.ALU.Adder;
-import Simulator.ALU.MainALU;
 import Simulator.Control.MainControl;
 import Simulator.Logic.AND;
-import Simulator.Logic.Multiplexer;
+import Simulator.Logic.MUX;
 import Simulator.Logic.OR;
 import Simulator.Memory.Memory;
 import Simulator.Memory.MemoryReader;
@@ -12,15 +11,14 @@ import Simulator.Register.MainRegister;
 import Simulator.Register.PC;
 
 public class Simulator {
-    private final int NUMMEMORY = 65536;
-    private final int NUMREGS = 8;
-    private final int MAXLINELENGTH = 1000;
+    private final int NUM_MEMORY = 65536;
+    private final int NUM_REGS = 8;
+    private final int MAX_LINE_LENGTH = 1000;
 
     private int pc;
-    private int[] mem = new int[NUMMEMORY];
-    private int[] reg = new int[NUMREGS];
+    private int[] mem = new int[NUM_MEMORY];
+    private int[] reg = new int[NUM_REGS];
     private int numMemory;
-    private int instrCount;
 
     // Wires
     private final Wire w_input_pc = new Wire();
@@ -89,7 +87,7 @@ public class Simulator {
             control_end
     );
 
-    private final Multiplexer mux_destReg = new Multiplexer(
+    private final MUX mux_destReg = new MUX(
             control_regSelect,
             new Wire[]{w_registerB, w_writeReg},
             w_mux_destReg
@@ -105,13 +103,13 @@ public class Simulator {
             w_dataB
     );
 
-    private final Multiplexer mux_srcToALU = new Multiplexer(
+    private final MUX mux_srcToALU = new MUX(
             control_aluSrc,
             new Wire[]{w_dataB, w_immediate},
             w_mux_srcToALU
     );
 
-    private final ALU alu = new MainALU(
+    private final ALU alu = new ALU(
             w_dataA,
             w_mux_srcToALU,
             control_aluOp,
@@ -128,30 +126,30 @@ public class Simulator {
             w_data_from_mem
     );
 
-    private final Multiplexer mux_dataToReg = new Multiplexer(
+    private final MUX mux_dataToReg = new MUX(
             control_memToReg,
             new Wire[]{w_alu_result, w_data_from_mem},
             w_mux_dataToReg
     );
 
-    private final Adder add_pc_1 = new Adder(w_output_pc, new Wire(1), w_add_pc_1);
-    private final Adder add_pc_offSet = new Adder(w_add_pc_1, w_immediate, w_add_pc_offSet);
+    private final ADD add_pc_1 = new ADD(w_output_pc, new Wire(1), w_add_pc_1);
+    private final ADD add_pc_offSet = new ADD(w_add_pc_1, w_immediate, w_add_pc_offSet);
 
     private final AND and_branch_zero = new AND(control_branch, w_alu_zero, control_beq);
     private final OR or_beq_jump = new OR(control_beq, control_jump, w_beq_or_jump);
-    private final Multiplexer mux_newPC = new Multiplexer(
+    private final MUX mux_newPC = new MUX(
             w_beq_or_jump,
             new Wire[]{w_add_pc_1, w_mux_jump_or_branch},
             w_input_pc
     );
 
-    private final Multiplexer mux_jump_or_branch = new Multiplexer(
+    private final MUX mux_jump_or_branch = new MUX(
             control_jump,
             new Wire[]{w_add_pc_offSet, w_dataA},
             w_mux_jump_or_branch
     );
 
-    private final Multiplexer mux_pc_or_data = new Multiplexer(
+    private final MUX mux_pc_or_data = new MUX(
             control_jump,
             new Wire[]{w_mux_dataToReg, w_add_pc_1},
             w_mux_pc_or_data
@@ -172,7 +170,7 @@ public class Simulator {
             System.out.printf("\t\tmem[ %d ] %d\n", i, mem[i]);
         }
         System.out.print("\tregisters:\n");
-        for (i=0; i < NUMREGS; i++) {
+        for (i=0; i < NUM_REGS; i++) {
             System.out.printf("\t\treg[ %d ] %d\n", i, reg[i]);
         }
         System.out.print("end state\n");
@@ -187,43 +185,53 @@ public class Simulator {
 
 
     public void run(){
-        instrCount = 0;
+        int instrCount = 0;
         memory.prettyPrint();
         for(int i = 1; i <= 500; i++){
+
             updateVariable();
             printState();
+
+            // Fetch Instruction
             instrMemory.execute();
-            w_registerA.execute();
-            w_registerB.execute();
-            w_writeReg.execute();
-            w_immediate.execute();
+
+            // Instruction Decode and Control Generation
             control.execute();
-            mux_destReg.execute();
             register.execute();
-            System.out.println(w_dataA.get());
+
+            // Execute (ALU)
             mux_srcToALU.execute();
             alu.execute();
-            System.out.println(w_immediate.get());
             and_branch_zero.execute();
             or_beq_jump.execute();
             add_pc_1.execute();
             add_pc_offSet.execute();
             mux_jump_or_branch.execute();
             mux_newPC.execute();
+
+            // Memory access
             dataMemory.execute();
-            System.out.println(control_jump.get());
+
+            // Register write back
+            mux_destReg.execute();
             mux_dataToReg.execute();
             mux_pc_or_data.execute();
             register.write();
-            instrCount++;
-            System.out.println(w_input_pc.get());
+
             PC.execute();
-            if(PC.isEnd()) break;
+            instrCount++;
+            if(PC.isEnd()) {
+                System.out.println("machine halted");
+                System.out.println("total of " + instrCount + " instructions executed");
+                System.out.println("final state of machine:");
+                updateVariable();
+                printState();
+                break;
+            }
+            if(pc >= numMemory) {
+                System.err.println("machine might infinite loop");
+                break;
+            }
         }
-        System.out.println("machine halted");
-        System.out.println("total of " + instrCount + " instructions executed");
-        System.out.println("final state of machine:");
-        updateVariable();
-        printState();
     }
 }
