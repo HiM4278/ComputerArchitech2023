@@ -1,21 +1,21 @@
-        lw      0       1       mcand
-        lw      0       2       mplier
-start   lw      0       4       step
-        lw      0       6       sixten
-        beq     4       6       13
-        lw      0       6       one
-        add     6       4       4
-        sw      0       4       step
-        lw      0       4       window
-        nand    1       4       6
-        nand    6       6       6
-        add     4       4       4
-        sw      0       4       window
-        beq     6       0       1
-        add     2       3       3
-        add     2       2       2
-        lw      0       6       stAddr
-        jalr    6       0
+        lw      0       1       mcand   #   $1 = mcand
+        lw      0       2       mplier  #   $2 = mplier
+start   lw      0       4       step    #   $4 = 0
+        lw      0       6       sixten  #   temporary = 16
+        beq     4       6       13      #   if temporary(16) == step, jump to end label, to halt the program
+        lw      0       6       one     #   temporary = 1
+        add     6       4       4       #   increment the variable step by 1
+        sw      0       4       step    #   store step value in local variable for the function
+        lw      0       4       window  #   load  window variable in $4
+        nand    1       4       6       #
+        nand    6       6       6       #   product of 2 serie-nand gates equivalent to and $1.$window size
+        add     4       4       4       #   shift left bit of the window
+        sw      0       4       window  #   store window size in mem
+        beq     6       0       1       #   if temporary == 0, shift left the multiplier
+        add     2       3       3       #   adding more return value of the function $3 += mplier
+        add     2       2       2       #   shift left multiplier
+        lw      0       6       stAddr  #   load start label address
+        jalr    6       0               #   return to caller (start)
 end     halt
 mcand   .fill   32766
 mplier  .fill   10383
