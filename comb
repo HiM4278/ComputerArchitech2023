@@ -1,47 +1,54 @@
         lw      0       1       n       #   input n
         lw      0       2       r       #   inpur r
-comb    lw          0           6           pos1        #   temporary = 1  ; pos = positive
-        sw          5           4           stack       #   save return address($7) on stack
+main    lw          0           6           comAdr      #   comb address
+        jalr        6           7
+done    halt
+comb    beq         1           2           3           #   check if n == r or not? If yes return (1) 6+1+3 == 17
+        beq         2           0           2           #   check if r == 0 or not? If yes return (1) 6+1+
+        lw          0           6           pos1        #   temporary = 1  ; pos = positive
+        sw          5           7           stack       #   save return address($7) on stack
         add         5           6           5           #   increment stack pointer
         sw          5           1           stack       #   save ($n), the 'n' on stack
         add         5           6           5           #   increment stack pointer
         sw          5           2           stack       #   save ($r), the 'r' on stack
-
-        beq         2           0           return      #   check if r == 0 or not? If yes return (1)
-        beq         1           2           return      #   check if n == r or not? If yes return (1)
-
+        add         5           6           5           #   increment stack pointer
+        sw          5           4           stack       #   save ($4), the local variable of the function on stack
+        add         5           6           5           #   increment stack pointer
+        lw          0           6           elseAd      #   load else address
+        jalr        6           0                       #   return to caller
+        lw          0           6           retAdr      #   load comb address
+        jalr        6           0                       #   return to caller
         # comb(n-1, r) + comb(n-1, r-1)
---------------------------------------------------------------------
-
-        lw          0           6           neg1        #   temporary = -1
+        --------------------------------------------------------------------
+else    lw          0           6           neg1        #   temporary = -1
         add         1           6           1           #   n = n - 1
-        jalr        6           7
-        add         0           3           6
+        lw          0           6           comAdr      #   load comb address
+        jalr        6           7                       #   return to caller
+        add         0           3           4           #   product of comb(n-1, r)
+        lw          0           6           neg1        #   temporary = -1
         add         2           6           2           #   r = r - 1
-
-        lw          0           6           comAdr      #   comb address
-        jalr        6           0                       #   recursive call
-        add         3           6           3
+        lw          0           6           comAdr      #   load comb address
+        jalr        6           7                       #   recursive call
+        add         3           4           3           #   product of comb(n-1, r-1) + comb(n-1, r)
         lw          0           6           popAdd      #   load pop address
-        jalr        6           7                       #   jump to pop label
-
-        #return 1
----------------------------------------------------------------------
+        jalr        6           0                       #   jump to pop label
+        # return 1
+        ---------------------------------------------------------------------
 return  lw          0           3           pos1        #   $3 = 1
-
 pop     lw          0           6           neg1        #   temporary = -1
+        add         5           6           5           #   decrement stack pointer
         lw          5           2           stack       #   load ($r), the 'n' on stack
         add         5           6           5           #   decrement stack pointer
         lw          5           1           stack       #   load ($n), the 'n' on stack
         add         5           6           5           #   decrement stack pointer
-        lw          5           4           stack       #   load return address($7) on stack
+        lw          5           7           stack       #   load return address($7) on stack
         jalr        7           0                       #   return comb(n-1, r) + comb(n-1, r-1) OR return 1
-
+retAdr      .fill   return
+elseAd      .fill   else
 popAdd      .fill   pop
-n           .fill   7
-r           .fill   3
-zero        .fill   0
+comAdr      .fill   comb
+n           .fill   4
+r           .fill   2
 neg1        .fill   -1
 pos1        .fill   1
-comAdr      .fill   comb
 stack       .fill   0
